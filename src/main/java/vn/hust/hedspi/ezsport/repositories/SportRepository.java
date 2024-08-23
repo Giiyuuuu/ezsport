@@ -7,5 +7,5 @@ import vn.hust.hedspi.ezsport.entities.Sport;
 import java.util.UUID;
 
 @Repository
-public interface SportRepository extends JpaRepository<Sport, UUID> {
+public interface SportRepository extends JpaRepository<Sport, String> {
 }

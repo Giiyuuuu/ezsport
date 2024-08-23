@@ -69,7 +69,7 @@ public class PlayerBookingController {
 
     //Show
     @GetMapping("/{id}")
-    public ResponseEntity<PlayerBooking> getPlayerBookingById(@PathVariable UUID id){
+    public ResponseEntity<PlayerBooking> getPlayerBookingById(@PathVariable String id){
         return playerBookingRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -77,7 +77,7 @@ public class PlayerBookingController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<PlayerBooking> updatePlayerBooking(@PathVariable UUID id, @Valid @RequestBody UpdatePlayerBookingRequest requestBody) {
+    public ResponseEntity<PlayerBooking> updatePlayerBooking(@PathVariable String id, @Valid @RequestBody UpdatePlayerBookingRequest requestBody) {
         PlayerBooking playerBooking = playerBookingRepository.findById(id).orElse(null);
         if (playerBooking == null) {
             return ResponseEntity.notFound().build();
@@ -110,7 +110,7 @@ public class PlayerBookingController {
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlayerBooking(@PathVariable UUID id){
+    public ResponseEntity<Void> deletePlayerBooking(@PathVariable String id){
         if (playerBookingRepository.existsById(id)){
             playerBookingRepository.deleteById(id);
             return ResponseEntity.noContent().build();

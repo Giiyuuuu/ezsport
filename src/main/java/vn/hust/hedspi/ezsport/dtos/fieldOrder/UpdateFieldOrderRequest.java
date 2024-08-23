@@ -18,7 +18,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateFieldOrderRequest {
     @NotNull
-    UUID fieldId;
+    String fieldId;
 
     @NotNull
     LocalTime start;
@@ -35,7 +35,7 @@ public class UpdateFieldOrderRequest {
     double price;
 
     @NotNull
-    UUID userId;
+    String userId;
 
     @NotNull
     @Future

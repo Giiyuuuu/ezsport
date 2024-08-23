@@ -5,5 +5,5 @@ import vn.hust.hedspi.ezsport.entities.PlayerBooking;
 
 import java.util.UUID;
 
-public interface PlayerBookingRepository extends JpaRepository<PlayerBooking, UUID> {
+public interface PlayerBookingRepository extends JpaRepository<PlayerBooking, String> {
 }

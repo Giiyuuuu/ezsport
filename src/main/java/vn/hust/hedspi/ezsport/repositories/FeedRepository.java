@@ -7,5 +7,5 @@ import vn.hust.hedspi.ezsport.entities.Feed;
 import java.util.UUID;
 
 @Repository
-public interface FeedRepository extends JpaRepository<Feed, UUID> {
+public interface FeedRepository extends JpaRepository<Feed, String> {
 }

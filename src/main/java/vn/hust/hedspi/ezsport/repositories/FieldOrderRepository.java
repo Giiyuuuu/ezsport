@@ -7,5 +7,5 @@ import vn.hust.hedspi.ezsport.entities.FieldOrder;
 import java.util.UUID;
 
 @Repository
-public interface FieldOrderRepository extends JpaRepository<FieldOrder, UUID> {
+public interface FieldOrderRepository extends JpaRepository<FieldOrder, String> {
 }

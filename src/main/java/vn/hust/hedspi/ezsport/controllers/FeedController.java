@@ -60,7 +60,7 @@ public class FeedController {
 
     //Show
     @GetMapping("/{id}")
-    public ResponseEntity<Feed> getFeedById(@PathVariable UUID id){
+    public ResponseEntity<Feed> getFeedById(@PathVariable String id){
         Optional<Feed> feed = feedRepository.findById(id);
 
         return feed.map(ResponseEntity::ok)
@@ -69,7 +69,7 @@ public class FeedController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<Feed> updateFeed(@PathVariable UUID id, @Valid @RequestBody UpdateFeedRequest requestBody){
+    public ResponseEntity<Feed> updateFeed(@PathVariable String id, @Valid @RequestBody UpdateFeedRequest requestBody){
         Optional<Feed> feed = feedRepository.findById(id);
         if (feed.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -98,7 +98,7 @@ public class FeedController {
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFeed(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteFeed(@PathVariable String id){
         Optional<Feed> feed = feedRepository.findById(id);
         if (feed.isEmpty()){
             return ResponseEntity.notFound().build();

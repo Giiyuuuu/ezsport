@@ -41,7 +41,7 @@ public class SportController {
 
     // Show
     @GetMapping("/{id}")
-    public ResponseEntity<Sport> getSportById(@PathVariable UUID id) {
+    public ResponseEntity<Sport> getSportById(@PathVariable String id) {
         Sport sport = sportRepository.findById(id).orElse(null);
 
         return sport != null ? ResponseEntity.ok(sport) : ResponseEntity.notFound().build();
@@ -49,7 +49,7 @@ public class SportController {
 
     // Update
     @PutMapping("/{id}")
-    public ResponseEntity<Sport> updateSport(@PathVariable UUID id, @Valid @RequestBody UpdateSportRequest requestBody) {
+    public ResponseEntity<Sport> updateSport(@PathVariable String id, @Valid @RequestBody UpdateSportRequest requestBody) {
         Sport sport = sportRepository.findById(id).orElse(null);
 
         if (sport == null) {
@@ -63,7 +63,7 @@ public class SportController {
 
     // Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSport(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteSport(@PathVariable String id) {
         Sport sport = sportRepository.findById(id).orElse(null);
 
         if (sport == null) {

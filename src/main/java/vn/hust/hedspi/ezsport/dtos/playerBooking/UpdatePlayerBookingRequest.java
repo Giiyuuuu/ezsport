@@ -16,13 +16,13 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdatePlayerBookingRequest {
     @NotNull
-    UUID bookingPlayerId;
+    String bookingPlayerId;
 
     @NotNull
-    UUID bookedPlayerId;
+    String bookedPlayerId;
 
     @NotNull
-    UUID feedId;
+    String feedId;
 
     @NotNull
     @Pattern(regexp = "accepted|waiting|rejected")

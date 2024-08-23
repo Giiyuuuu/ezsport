@@ -44,7 +44,7 @@ public class UserController {
 
     // Show
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
+    public ResponseEntity<User> getUserById(@PathVariable String id) {
         Optional<User> user = userRepository.findById(id);
         return user.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -52,7 +52,7 @@ public class UserController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable UUID id, @Valid @RequestBody() UpdateUserRequest requestBody) {
+    public ResponseEntity<User> updateUser(@PathVariable String id, @Valid @RequestBody() UpdateUserRequest requestBody) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -69,7 +69,7 @@ public class UserController {
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();

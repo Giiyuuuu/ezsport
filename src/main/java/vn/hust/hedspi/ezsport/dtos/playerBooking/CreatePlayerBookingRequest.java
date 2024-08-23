@@ -15,11 +15,11 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreatePlayerBookingRequest {
     @NotNull
-    UUID bookingPlayerId;
+    String bookingPlayerId;
 
     @NotNull
-    UUID bookedPlayerId;
+    String bookedPlayerId;
 
     @NotNull
-    UUID feedId;
+    String feedId;
 }

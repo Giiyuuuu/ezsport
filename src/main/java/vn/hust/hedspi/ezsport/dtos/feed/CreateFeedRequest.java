@@ -17,7 +17,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateFeedRequest {
     @NotNull
-    UUID userId;
+    String userId;
 
     @Size()
     String description;

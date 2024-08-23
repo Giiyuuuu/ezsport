@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import vn.hust.hedspi.ezsport.dtos.CreateFieldRequest;
+import vn.hust.hedspi.ezsport.dtos.field.CreateFieldRequest;
 import vn.hust.hedspi.ezsport.entities.Field;
 import vn.hust.hedspi.ezsport.repositories.FieldRepository;
 

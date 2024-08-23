@@ -64,7 +64,7 @@ public class FieldOrderController {
         fieldOrder.setEnd(requestBody.getEnd());
         fieldOrder.setDate(requestBody.getDate());
         fieldOrder.setPrice(requestBody.getPrice());
-        fieldOrder.setUserId(requestBody.getUserId());
+        fieldOrder.setUserId(UUID.fromString(requestBody.getUserId()));
         fieldOrder.setPaidAt(requestBody.getPaidAt());
 
         return ResponseEntity.ok(fieldOrderRepository.save(fieldOrder));
@@ -72,7 +72,7 @@ public class FieldOrderController {
 
     //Show
     @GetMapping("/{id}")
-    public ResponseEntity<FieldOrder> getFieldOrderById(@PathVariable UUID id){
+    public ResponseEntity<FieldOrder> getFieldOrderById(@PathVariable String id){
         Optional<FieldOrder> fieldOrder = fieldOrderRepository.findById(id);
 
         return fieldOrder.map(ResponseEntity::ok)
@@ -81,7 +81,7 @@ public class FieldOrderController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<FieldOrder> updateFieldOrder(@PathVariable UUID id, @Valid @RequestBody UpdateFieldOrderRequest requestBody) {
+    public ResponseEntity<FieldOrder> updateFieldOrder(@PathVariable String id, @Valid @RequestBody UpdateFieldOrderRequest requestBody) {
         Optional<FieldOrder> fieldOrderOptional = fieldOrderRepository.findById(id);
         if (fieldOrderOptional.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -102,7 +102,7 @@ public class FieldOrderController {
         fieldOrder.setEnd(requestBody.getEnd());
         fieldOrder.setDate(requestBody.getDate());
         fieldOrder.setPrice(requestBody.getPrice());
-        fieldOrder.setUserId(requestBody.getUserId());
+        fieldOrder.setUserId(UUID.fromString(requestBody.getUserId()));
         fieldOrder.setPaidAt(requestBody.getPaidAt());
 
         return ResponseEntity.ok(fieldOrderRepository.save(fieldOrder));
@@ -110,7 +110,7 @@ public class FieldOrderController {
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFieldOrder(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteFieldOrder(@PathVariable String id){
         Optional<FieldOrder> fieldOrderOptional = fieldOrderRepository.findById(id);
         if (fieldOrderOptional.isEmpty()){
             return ResponseEntity.notFound().build();

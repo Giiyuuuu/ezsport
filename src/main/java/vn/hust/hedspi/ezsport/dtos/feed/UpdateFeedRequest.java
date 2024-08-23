@@ -17,7 +17,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateFeedRequest {
     @NotNull
-    UUID userId;
+    String userId;
 
     @Size
     String description;
