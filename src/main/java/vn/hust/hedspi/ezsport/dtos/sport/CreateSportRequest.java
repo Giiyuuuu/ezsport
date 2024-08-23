@@ -1,4 +1,4 @@
-package vn.hust.hedspi.ezsport.dtos;
+package vn.hust.hedspi.ezsport.dtos.sport;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
