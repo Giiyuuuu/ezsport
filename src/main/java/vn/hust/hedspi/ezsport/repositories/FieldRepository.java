@@ -7,6 +7,6 @@ import vn.hust.hedspi.ezsport.entities.Field;
 import java.util.UUID;
 
 @Repository
-public interface FieldRepository extends JpaRepository<Field, String> {
+public interface FieldRepository extends JpaRepository<Field, UUID> {
 
 }
