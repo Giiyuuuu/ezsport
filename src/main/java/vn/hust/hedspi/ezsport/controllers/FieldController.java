@@ -1,5 +1,6 @@
 package vn.hust.hedspi.ezsport.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class FieldController {
     }
 
     @PostMapping()
-    public Object createField(@RequestBody CreateFieldRequest requestBody){
+    public Object createField(@RequestBody @Valid CreateFieldRequest requestBody){
         Field field = new Field();
         field.setName(requestBody.getName());
         field.setDescription(requestBody.getDescription());

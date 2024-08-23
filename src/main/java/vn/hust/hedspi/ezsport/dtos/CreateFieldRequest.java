@@ -1,9 +1,7 @@
 package vn.hust.hedspi.ezsport.dtos;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
@@ -11,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateFieldRequest {
+    @Size(min = 4,message = "FIELD_NAME_INVALID")
     String name;
     double longitude;
     double latitude;
