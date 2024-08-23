@@ -7,6 +7,6 @@ import vn.hust.hedspi.ezsport.entities.User;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, UUID> {
 
 }
