@@ -1,6 +1,6 @@
 package vn.hust.hedspi.ezsport.dtos;
 
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -8,10 +8,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateFieldRequest {
-    @Size(min = 4,message = "FIELD_NAME_INVALID")
+public class CreateSportRequest {
+    @NotBlank(message = "Sport can't not blank")
     String name;
-    double longitude;
-    double latitude;
-    String description;
 }
