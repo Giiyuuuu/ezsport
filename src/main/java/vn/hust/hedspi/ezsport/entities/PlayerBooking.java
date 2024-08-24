@@ -18,7 +18,7 @@ import java.util.UUID;
 public class PlayerBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
+    String id;
 
     @ManyToOne
     @JoinColumn(name = "booking_user",referencedColumnName = "id",nullable = false)

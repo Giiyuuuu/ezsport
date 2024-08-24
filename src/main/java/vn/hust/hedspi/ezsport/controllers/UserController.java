@@ -6,10 +6,13 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.user.CreateUserRequest;
+import vn.hust.hedspi.ezsport.dtos.user.CreateUserResponse;
 import vn.hust.hedspi.ezsport.dtos.user.UpdateUserRequest;
 import vn.hust.hedspi.ezsport.entities.User;
 import vn.hust.hedspi.ezsport.repositories.UserRepository;
+import vn.hust.hedspi.ezsport.services.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,16 +26,12 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
     // Create
     @PostMapping()
-    public ResponseEntity<User> createUser(@Valid @RequestBody CreateUserRequest requestBody) {
-        User user = new User();
-        user.setEmail(requestBody.getEmail());
-        user.setFirstname(requestBody.getFirstname());
-        user.setLastname(requestBody.getLastname());
-        user.setPassword(requestBody.getPassword());
-
-        return ResponseEntity.ok(userRepository.save(user));
+    public ApiResponse<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest requestBody) {
+        return userService.createUser(requestBody);
     }
 
     // List User

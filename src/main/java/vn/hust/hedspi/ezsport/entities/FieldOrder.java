@@ -18,7 +18,7 @@ import java.util.UUID;
 public class FieldOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "field_id",referencedColumnName = "id",nullable = false)
@@ -37,7 +37,7 @@ public class FieldOrder {
     private double price;
 
     @Column(name = "user_id")
-    private UUID userId;
+    private String userId;
 
     @Column(name = "paid_at")
     private LocalDateTime paidAt;

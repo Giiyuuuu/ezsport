@@ -64,7 +64,7 @@ public class FieldOrderController {
         fieldOrder.setEnd(requestBody.getEnd());
         fieldOrder.setDate(requestBody.getDate());
         fieldOrder.setPrice(requestBody.getPrice());
-        fieldOrder.setUserId(UUID.fromString(requestBody.getUserId()));
+        fieldOrder.setUserId(requestBody.getUserId());
         fieldOrder.setPaidAt(requestBody.getPaidAt());
 
         return ResponseEntity.ok(fieldOrderRepository.save(fieldOrder));
@@ -102,7 +102,7 @@ public class FieldOrderController {
         fieldOrder.setEnd(requestBody.getEnd());
         fieldOrder.setDate(requestBody.getDate());
         fieldOrder.setPrice(requestBody.getPrice());
-        fieldOrder.setUserId(UUID.fromString(requestBody.getUserId()));
+        fieldOrder.setUserId(requestBody.getUserId());
         fieldOrder.setPaidAt(requestBody.getPaidAt());
 
         return ResponseEntity.ok(fieldOrderRepository.save(fieldOrder));

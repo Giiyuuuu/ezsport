@@ -12,7 +12,10 @@ public enum ErrorCode {
     USER_NOT_FOUND(1002,"User not found !"),
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error"),
     INVALID_KEY(9998,"Invalid key"),
-    FIELD_NAME_INVALID(1003,"Field name invalid")
+    FIELD_NAME_INVALID(1003,"Field name invalid"),
+    EMAIL_INVALID(1003,"Email invalid"),
+    PASSWORD_INVALID(1003,"Password at least 8 character")
+
     ;
 
     ErrorCode(int code,String message){

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Field {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
 
     @Column()
     private String name;
@@ -46,5 +46,5 @@ public class Field {
     private String status;
 
     @Column(name = "sport_id")
-    private UUID sport;
+    private String sport;
 }

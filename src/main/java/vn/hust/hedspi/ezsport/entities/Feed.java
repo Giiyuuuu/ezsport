@@ -20,7 +20,7 @@ import java.util.UUID;
 public class Feed {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
+    String id;
 
     @ManyToOne
     @JoinColumn(name = "user_id",referencedColumnName = "id")
@@ -48,6 +48,6 @@ public class Feed {
     double longitude;
 
     @Column(nullable = false)
-    String block;
+    String block = "";
 }
 

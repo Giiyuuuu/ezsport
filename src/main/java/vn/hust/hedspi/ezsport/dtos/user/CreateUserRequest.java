@@ -3,20 +3,23 @@ package vn.hust.hedspi.ezsport.dtos.user;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateUserRequest {
-    @NotBlank
     private String firstname;
 
-    @NotBlank
     private String lastname;
 
-    @NotBlank
-    @Email
+    @Email(message = "EMAIL_INVALID")
     private String email;
 
-    @Size(min = 6, max = 25)
+    @Size(min = 6, message = "PASSWORD_INVALID")
     private String password;
 }
