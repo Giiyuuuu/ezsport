@@ -4,19 +4,16 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.user.CreateUserRequest;
-import vn.hust.hedspi.ezsport.dtos.user.CreateUserResponse;
+import vn.hust.hedspi.ezsport.dtos.user.UserResponse;
 import vn.hust.hedspi.ezsport.dtos.user.UpdateUserRequest;
-import vn.hust.hedspi.ezsport.entities.User;
 import vn.hust.hedspi.ezsport.repositories.UserRepository;
 import vn.hust.hedspi.ezsport.services.UserService;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController()
 @RequestMapping("api/v1/user")
@@ -24,57 +21,40 @@ import java.util.UUID;
 @AllArgsConstructor()
 public class UserController {
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
+
     // Create
     @PostMapping()
-    public ApiResponse<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest requestBody) {
+    public ApiResponse<UserResponse> createUser(@Valid @RequestBody CreateUserRequest requestBody) {
         return userService.createUser(requestBody);
     }
 
     // List User
     @GetMapping()
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return ResponseEntity.ok(users);
+    public ApiResponse<Page<UserResponse>> listUser(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1000") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return userService.listUser(pageable);
     }
 
     // Show
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ApiResponse<UserResponse> getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
     }
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable String id, @Valid @RequestBody() UpdateUserRequest requestBody) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        User user = userOptional.get();
-        user.setEmail(requestBody.getEmail());
-        user.setFirstname(requestBody.getFirstname());
-        user.setLastname(requestBody.getLastname());
-        user.setPassword(requestBody.getPassword());
-
-        return ResponseEntity.ok(userRepository.save(user));
+    public ApiResponse<UserResponse> updateUser(@PathVariable String id, @Valid @RequestBody() UpdateUserRequest requestBody) {
+        return userService.updateUser(id, requestBody);
     }
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        userRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ApiResponse<Void> deleteUser(@PathVariable String id) {
+        return userService.deleteUser(id);
     }
 }
