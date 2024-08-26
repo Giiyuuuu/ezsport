@@ -58,13 +58,18 @@ public class UserService {
     public ApiResponse<UserResponse> updateUser(String id, UpdateUserRequest request){
         User user = userRepository.findById(id).orElse(null);
         if(user == null){
-            return null;
+            ApiResponse response = new ApiResponse();
+            response.setMessage("User not found !");
+            return response;
         }
-        user = userMapper.toUpdateUserRequest(request);
-        UserResponse createUserResponse = userMapper.toUserResponse(userRepository.save(user));
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        UserResponse userResponse = userMapper.toUserResponse(userRepository.save(user));
         ApiResponse response = new ApiResponse();
         response.setMessage("Update user successful !");
-        response.setResult(createUserResponse);
+        response.setResult(userResponse);
 
         return response;
     }
