@@ -13,9 +13,9 @@ public class UpdateUserRequest {
 
     private String lastname;
 
-    @Email
+    @Email(message = "EMAIL_INVALID")
     private String email;
 
-    @Size(min = 6, max = 25)
+    @Size(min = 6, message = "PASSWORD_INVALID")
     private String password;
 }
