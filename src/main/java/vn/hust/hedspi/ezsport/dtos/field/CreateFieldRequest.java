@@ -28,4 +28,17 @@ public class CreateFieldRequest {
     @NotBlank
     @Size(max = 1000)
     String description;
+
+    @NotBlank
+    String sportId;
+
+    @NotBlank
+    String ownerId;
+
+    @NotBlank
+    String block;
+
+    String avatar;
+
+    String status;
 }

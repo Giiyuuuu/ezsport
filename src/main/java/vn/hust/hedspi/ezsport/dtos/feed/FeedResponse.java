@@ -1,46 +1,29 @@
 package vn.hust.hedspi.ezsport.dtos.feed;
 
-import jakarta.validation.constraints.*;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import vn.hust.hedspi.ezsport.entities.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateFeedRequest {
-    @NotNull
-    String userId;
-
-    @Size()
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
+public class FeedResponse {
+    String id;
+    User user;
     String description;
-
-    @NotNull
     LocalTime start;
-
-    @NotNull
     LocalTime end;
-
-    @NotNull
-    @FutureOrPresent
     LocalDate date;
-
-    @NotNull
-    @DecimalMin("-180.0")
-    @DecimalMax("180.0")
+    String status;
     double latitude;
-
-    @NotNull
-    @DecimalMin("-90.0")
-    @DecimalMax("90.0")
     double longitude;
-
-    @NotBlank
     String block;
 }

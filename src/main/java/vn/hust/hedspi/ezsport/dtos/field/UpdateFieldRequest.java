@@ -28,4 +28,21 @@ public class UpdateFieldRequest {
     @NotBlank
     @Size(max = 1000)
     String description;
+
+    @NotBlank
+    String sportId;
+
+    @NotBlank
+    String ownerId;
+
+    @NotBlank
+    String block;
+
+    String avatar;
+
+    @NotBlank
+    @Pattern(regexp = "waiting|active|inactive")
+    String isActive;
+
+    String status;
 }
