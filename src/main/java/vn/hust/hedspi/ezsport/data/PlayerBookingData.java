@@ -21,24 +21,21 @@ public class PlayerBookingData implements DataSeeder<PlayerBooking> {
     public List<PlayerBooking> generate(int amount) {
         List<PlayerBooking> randomPlayerBookings = new ArrayList<>();
 
-        List<Feed> randomFeeds = feedRepository.getRandomFeedsLimit();
-        List<User> users = userRepository.getRandom10000User();
+        for (int i=0;i<amount;i++){
+            List<Feed> randomFeeds = feedRepository.getRandomFeedsLimit();
+            List<User> users = userRepository.getRandom10000User();
 
-        Random random = new Random();
+            Random random = new Random();
 
-        users.forEach(user->{
-            PlayerBooking playerBooking = new PlayerBooking();
-            playerBooking.setFeed(randomFeeds.get(random.nextInt(randomFeeds.size())));
-            playerBooking.setBookingUser(user);
+            randomFeeds.forEach(feed -> {
+                PlayerBooking playerBooking = new PlayerBooking();
+                playerBooking.setFeed(feed);
+                playerBooking.setBookingUser(feed.getUser());
+                playerBooking.setBookedUser(users.get(random.nextInt(users.size())));
 
-            User bookedUser;
-            do {
-                bookedUser = users.get(random.nextInt(users.size()));
-            } while (bookedUser.equals(user));
-
-            playerBooking.setBookedUser(bookedUser);
-            randomPlayerBookings.add(playerBooking);
-        });
+                randomPlayerBookings.add(playerBooking);
+            });
+        }
 
         return randomPlayerBookings;
     }

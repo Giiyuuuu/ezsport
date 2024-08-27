@@ -157,15 +157,13 @@ public class PlayerBookingService {
 
     public ApiResponse<Void> deletePlayerBooking(String id) {
         PlayerBooking playerBooking = playerBookingRepository.findById(id).orElse(null);
+        ApiResponse response = new ApiResponse();
         if (playerBooking == null) {
-            ApiResponse response = new ApiResponse();
             response.setCode(404);
             response.setMessage("Player booking not found !");
-
             return response;
         }
         playerBookingRepository.delete(playerBooking);
-        ApiResponse response = new ApiResponse();
         response.setMessage("Delete player booking successful !");
 
         return response;
@@ -175,23 +173,27 @@ public class PlayerBookingService {
     public void init() {
         long count = playerBookingRepository.count();
         if (count < 10) {
-            log.info("Generating large number of player bookings...");
+//            log.info("Generating large number of player bookings...");
+//
+//            PlayerBookingData data = new PlayerBookingData(feedRepository, userRepository);
+//
+//            int totalAmount = 1000000;
+//            int batchSize = 10000;
+//
+//            for (int i = 0; i < totalAmount; i += batchSize) {
+//                int amountToGenerate = Math.min(batchSize, totalAmount - i);
+//                List<PlayerBooking> playerBookings = data.generate(amountToGenerate);
+//
+//                playerBookingRepository.saveAll(playerBookings);
+//
+//                log.info("Batch {} saved.", (i / batchSize) + 1);
+//            }
+//
+//            log.info("All batches completed.");
+            PlayerBookingData data = new PlayerBookingData(feedRepository,userRepository);
+            List<PlayerBooking> listData = data.generate(100);
 
-            PlayerBookingData data = new PlayerBookingData(feedRepository, userRepository);
-
-            int totalAmount = 1000000;
-            int batchSize = 10000;
-
-            for (int i = 0; i < totalAmount; i += batchSize) {
-                int amountToGenerate = Math.min(batchSize, totalAmount - i);
-                List<PlayerBooking> playerBookings = data.generate(amountToGenerate);
-
-                playerBookingRepository.saveAll(playerBookings);
-
-                log.info("Batch {} saved.", (i / batchSize) + 1);
-            }
-
-            log.info("All batches completed.");
+            playerBookingRepository.saveAll(listData);
         }
     }
 
