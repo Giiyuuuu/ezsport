@@ -1,5 +1,6 @@
 package vn.hust.hedspi.ezsport.services;
 
+import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vn.hust.hedspi.ezsport.data.PlayerBookingData;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.playerBooking.CreatePlayerBookingRequest;
 import vn.hust.hedspi.ezsport.dtos.playerBooking.PlayerBookingResponse;
@@ -19,6 +21,8 @@ import vn.hust.hedspi.ezsport.mappers.PlayerBookingMapper;
 import vn.hust.hedspi.ezsport.repositories.FeedRepository;
 import vn.hust.hedspi.ezsport.repositories.PlayerBookingRepository;
 import vn.hust.hedspi.ezsport.repositories.UserRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -166,4 +170,29 @@ public class PlayerBookingService {
 
         return response;
     }
+
+    @PostConstruct
+    public void init() {
+        long count = playerBookingRepository.count();
+        if (count < 10) {
+            log.info("Generating large number of player bookings...");
+
+            PlayerBookingData data = new PlayerBookingData(feedRepository, userRepository);
+
+            int totalAmount = 1000000;
+            int batchSize = 10000;
+
+            for (int i = 0; i < totalAmount; i += batchSize) {
+                int amountToGenerate = Math.min(batchSize, totalAmount - i);
+                List<PlayerBooking> playerBookings = data.generate(amountToGenerate);
+
+                playerBookingRepository.saveAll(playerBookings);
+
+                log.info("Batch {} saved.", (i / batchSize) + 1);
+            }
+
+            log.info("All batches completed.");
+        }
+    }
+
 }
