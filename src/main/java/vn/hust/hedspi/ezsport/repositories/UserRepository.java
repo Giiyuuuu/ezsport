@@ -11,4 +11,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "SELECT * FROM users",nativeQuery = true)
     List<User> getRandom1000User();
+
+    @Query(value = "SELECT * FROM users ORDER BY RANDOM() LIMIT 10000",nativeQuery = true)
+    List<User> getRandom10000User();
 }

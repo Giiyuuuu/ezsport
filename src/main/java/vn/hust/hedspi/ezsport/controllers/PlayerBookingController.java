@@ -4,19 +4,15 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.playerBooking.CreatePlayerBookingRequest;
+import vn.hust.hedspi.ezsport.dtos.playerBooking.PlayerBookingResponse;
 import vn.hust.hedspi.ezsport.dtos.playerBooking.UpdatePlayerBookingRequest;
-import vn.hust.hedspi.ezsport.entities.Feed;
-import vn.hust.hedspi.ezsport.entities.PlayerBooking;
-import vn.hust.hedspi.ezsport.entities.User;
-import vn.hust.hedspi.ezsport.repositories.FeedRepository;
-import vn.hust.hedspi.ezsport.repositories.PlayerBookingRepository;
-import vn.hust.hedspi.ezsport.repositories.UserRepository;
-
-import java.util.List;
-import java.util.UUID;
+import vn.hust.hedspi.ezsport.services.PlayerBookingService;
 
 @RestController
 @NoArgsConstructor
@@ -24,97 +20,40 @@ import java.util.UUID;
 @RequestMapping("api/v1/player-booking")
 public class PlayerBookingController {
     @Autowired
-    private PlayerBookingRepository playerBookingRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private FeedRepository feedRepository;
+    private PlayerBookingService playerBookingService;
 
     //List all player booking
     @GetMapping()
-    public ResponseEntity<List<PlayerBooking>> getAllPlayerBookings(){
-        return ResponseEntity.ok(playerBookingRepository.findAll());
+    public ApiResponse<Page<PlayerBookingResponse>> listPlayerBooking(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1000") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return playerBookingService.listPlayerBooking(pageable);
     }
 
     //Create
     @PostMapping()
-    public ResponseEntity<PlayerBooking> createPlayerBooking(@Valid @RequestBody CreatePlayerBookingRequest requestBody) {
-        User bookingPlayer = userRepository.findById(requestBody.getBookingPlayerId()).orElse(null);
-        if (bookingPlayer == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        User bookedPlayer = userRepository.findById(requestBody.getBookedPlayerId()).orElse(null);
-        if (bookedPlayer == null) {
-            return ResponseEntity.notFound().build();
-        } else if (bookedPlayer.getId().equals(bookingPlayer.getId())) {
-            return ResponseEntity.badRequest().build();
-
-        }
-
-        Feed feed = feedRepository.findById(requestBody.getFeedId()).orElse(null);
-        if (feed == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        PlayerBooking playerBooking = new PlayerBooking();
-        playerBooking.setBookingUser(bookingPlayer);
-        playerBooking.setBookedUser(bookedPlayer);
-        playerBooking.setFeed(feed);
-
-        return ResponseEntity.ok(playerBookingRepository.save(playerBooking));
+    public ApiResponse<PlayerBookingResponse> createPlayerBooking(@Valid @RequestBody CreatePlayerBookingRequest requestBody) {
+        return playerBookingService.createPlayerBooking(requestBody);
     }
 
     //Show
     @GetMapping("/{id}")
-    public ResponseEntity<PlayerBooking> getPlayerBookingById(@PathVariable String id){
-        return playerBookingRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ApiResponse<PlayerBookingResponse> getPlayerBookingById(@PathVariable String id) {
+        return playerBookingService.getPlayerBookingById(id);
     }
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<PlayerBooking> updatePlayerBooking(@PathVariable String id, @Valid @RequestBody UpdatePlayerBookingRequest requestBody) {
-        PlayerBooking playerBooking = playerBookingRepository.findById(id).orElse(null);
-        if (playerBooking == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        User bookingPlayer = userRepository.findById(requestBody.getBookingPlayerId()).orElse(null);
-        if (bookingPlayer == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        User bookedPlayer = userRepository.findById(requestBody.getBookedPlayerId()).orElse(null);
-        if (bookedPlayer == null) {
-            return ResponseEntity.notFound().build();
-        } else if (bookedPlayer.getId().equals(bookingPlayer.getId())) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Feed feed = feedRepository.findById(requestBody.getFeedId()).orElse(null);
-        if (feed == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        playerBooking.setBookingUser(bookingPlayer);
-        playerBooking.setBookedUser(bookedPlayer);
-        playerBooking.setFeed(feed);
-        playerBooking.setStatus(requestBody.getStatus());
-
-        return ResponseEntity.ok(playerBookingRepository.save(playerBooking));
+    public ApiResponse<PlayerBookingResponse> updatePlayerBooking(@PathVariable String id, @Valid @RequestBody() UpdatePlayerBookingRequest requestBody) {
+        return playerBookingService.updatePlayerBooking(id, requestBody);
     }
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlayerBooking(@PathVariable String id){
-        if (playerBookingRepository.existsById(id)){
-            playerBookingRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    public ApiResponse<Void> deletePlayerBooking(@PathVariable String id) {
+        return playerBookingService.deletePlayerBooking(id);
     }
 }

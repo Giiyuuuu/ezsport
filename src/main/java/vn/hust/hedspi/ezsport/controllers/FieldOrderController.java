@@ -4,20 +4,15 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.fieldOrder.CreateFieldOrderRequest;
+import vn.hust.hedspi.ezsport.dtos.fieldOrder.FieldOrderResponse;
 import vn.hust.hedspi.ezsport.dtos.fieldOrder.UpdateFieldOrderRequest;
-import vn.hust.hedspi.ezsport.entities.Field;
-import vn.hust.hedspi.ezsport.entities.FieldOrder;
-import vn.hust.hedspi.ezsport.entities.User;
-import vn.hust.hedspi.ezsport.repositories.FieldOrderRepository;
-import vn.hust.hedspi.ezsport.repositories.FieldRepository;
-import vn.hust.hedspi.ezsport.repositories.UserRepository;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import vn.hust.hedspi.ezsport.services.FieldOrderService;
 
 @RestController
 @NoArgsConstructor
@@ -25,98 +20,40 @@ import java.util.UUID;
 @RequestMapping("api/v1/field-order")
 public class FieldOrderController {
     @Autowired
-    private FieldOrderRepository fieldOrderRepository;
-
-    @Autowired
-    private FieldRepository fieldRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private FieldOrderService fieldOrderService;
 
     //List field order
     @GetMapping()
-    public ResponseEntity<List<FieldOrder>> getAllFieldOrders(){
-        return ResponseEntity.ok(fieldOrderRepository.findAll());
+    public ApiResponse<Page<FieldOrderResponse>> listFieldOrder(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1000") int size
+    ){
+        Pageable pageable = PageRequest.of(page, size);
+
+        return fieldOrderService.listFieldOrder(pageable);
     }
 
     //Create
     @PostMapping()
-    public ResponseEntity<FieldOrder> createFieldOrder(@Valid @RequestBody CreateFieldOrderRequest requestBody) {
-        Field field = fieldRepository.findById(requestBody.getFieldId()).orElse(null);
-        if (field == null){
-            return ResponseEntity.notFound().build();
-        }
-
-        if (requestBody.getStart().isAfter(requestBody.getEnd())){
-            return ResponseEntity.badRequest().build();
-        }
-
-        if (requestBody.getUserId() != null){
-            User user = userRepository.findById(requestBody.getUserId()).orElse(null);
-            if (user == null){
-                return ResponseEntity.notFound().build();
-            }
-        }
-
-        FieldOrder fieldOrder = new FieldOrder();
-        fieldOrder.setField(field);
-        fieldOrder.setStart(requestBody.getStart());
-        fieldOrder.setEnd(requestBody.getEnd());
-        fieldOrder.setDate(requestBody.getDate());
-        fieldOrder.setPrice(requestBody.getPrice());
-        fieldOrder.setUserId(requestBody.getUserId());
-        fieldOrder.setPaidAt(requestBody.getPaidAt());
-
-        return ResponseEntity.ok(fieldOrderRepository.save(fieldOrder));
+    public ApiResponse<FieldOrderResponse> createFieldOrder(@Valid @RequestBody CreateFieldOrderRequest requestBody){
+        return fieldOrderService.createFieldOrder(requestBody);
     }
 
     //Show
     @GetMapping("/{id}")
-    public ResponseEntity<FieldOrder> getFieldOrderById(@PathVariable String id){
-        Optional<FieldOrder> fieldOrder = fieldOrderRepository.findById(id);
-
-        return fieldOrder.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ApiResponse<FieldOrderResponse> getFieldOrderById(@PathVariable String id){
+        return fieldOrderService.getFieldOrderById(id);
     }
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<FieldOrder> updateFieldOrder(@PathVariable String id, @Valid @RequestBody UpdateFieldOrderRequest requestBody) {
-        Optional<FieldOrder> fieldOrderOptional = fieldOrderRepository.findById(id);
-        if (fieldOrderOptional.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        if (requestBody.getStart().isAfter(requestBody.getEnd())){
-            return ResponseEntity.badRequest().build();
-        }
-        if (requestBody.getUserId() != null){
-            User user = userRepository.findById(requestBody.getUserId()).orElse(null);
-            if (user == null){
-                return ResponseEntity.notFound().build();
-            }
-        }
-
-        FieldOrder fieldOrder = fieldOrderOptional.get();
-        fieldOrder.setField(fieldRepository.findById(requestBody.getFieldId()).orElse(null));
-        fieldOrder.setStart(requestBody.getStart());
-        fieldOrder.setEnd(requestBody.getEnd());
-        fieldOrder.setDate(requestBody.getDate());
-        fieldOrder.setPrice(requestBody.getPrice());
-        fieldOrder.setUserId(requestBody.getUserId());
-        fieldOrder.setPaidAt(requestBody.getPaidAt());
-
-        return ResponseEntity.ok(fieldOrderRepository.save(fieldOrder));
+    public ApiResponse<FieldOrderResponse> updateFieldOrder(@PathVariable String id,@Valid @RequestBody UpdateFieldOrderRequest requestBody){
+        return fieldOrderService.updateFieldOrder(id, requestBody);
     }
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFieldOrder(@PathVariable String id){
-        Optional<FieldOrder> fieldOrderOptional = fieldOrderRepository.findById(id);
-        if (fieldOrderOptional.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        fieldOrderRepository.delete(fieldOrderOptional.get());
-
-        return ResponseEntity.noContent().build();
+    public ApiResponse<Void> deleteFieldOrder(@PathVariable String id){
+        return fieldOrderService.deleteFieldOrder(id);
     }
 }

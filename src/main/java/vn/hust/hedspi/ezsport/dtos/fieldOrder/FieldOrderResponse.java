@@ -1,42 +1,28 @@
 package vn.hust.hedspi.ezsport.dtos.fieldOrder;
 
-import jakarta.validation.constraints.*;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import vn.hust.hedspi.ezsport.entities.Field;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class UpdateFieldOrderRequest {
-    @NotNull
-    String fieldId;
-
-    @NotNull
+@AllArgsConstructor
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
+public class FieldOrderResponse {
+    String id;
+    Field field;
     LocalTime start;
-
-    @NotNull
     LocalTime end;
-
-    @NotNull
-    @FutureOrPresent
     LocalDate date;
-
-    @NotNull
-    @DecimalMin("0.0")
     double price;
-
-    @NotNull
     String userId;
-
-    @NotNull
-    @Future
     LocalDateTime paidAt;
 }
