@@ -13,7 +13,6 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -37,10 +36,8 @@ public class CreateFieldOrderRequest {
     @DecimalMin("0.0")
     double price;
 
-    @Null
     String userId;
 
-    @Null
     @FutureOrPresent
     LocalDateTime paidAt;
 }
