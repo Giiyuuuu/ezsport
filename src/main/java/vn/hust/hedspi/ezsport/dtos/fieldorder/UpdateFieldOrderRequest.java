@@ -1,4 +1,4 @@
-package vn.hust.hedspi.ezsport.dtos.fieldOrder;
+package vn.hust.hedspi.ezsport.dtos.fieldorder;
 
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;

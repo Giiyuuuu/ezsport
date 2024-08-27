@@ -1,4 +1,4 @@
-package vn.hust.hedspi.ezsport.dtos.playerBooking;
+package vn.hust.hedspi.ezsport.dtos.playerbooking;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

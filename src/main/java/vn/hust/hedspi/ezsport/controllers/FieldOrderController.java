@@ -9,9 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
-import vn.hust.hedspi.ezsport.dtos.fieldOrder.CreateFieldOrderRequest;
-import vn.hust.hedspi.ezsport.dtos.fieldOrder.FieldOrderResponse;
-import vn.hust.hedspi.ezsport.dtos.fieldOrder.UpdateFieldOrderRequest;
+import vn.hust.hedspi.ezsport.dtos.fieldorder.CreateFieldOrderRequest;
+import vn.hust.hedspi.ezsport.dtos.fieldorder.FieldOrderResponse;
+import vn.hust.hedspi.ezsport.dtos.fieldorder.UpdateFieldOrderRequest;
 import vn.hust.hedspi.ezsport.services.FieldOrderService;
 
 @RestController

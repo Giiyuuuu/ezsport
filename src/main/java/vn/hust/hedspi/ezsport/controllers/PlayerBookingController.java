@@ -9,9 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
-import vn.hust.hedspi.ezsport.dtos.playerBooking.CreatePlayerBookingRequest;
-import vn.hust.hedspi.ezsport.dtos.playerBooking.PlayerBookingResponse;
-import vn.hust.hedspi.ezsport.dtos.playerBooking.UpdatePlayerBookingRequest;
+import vn.hust.hedspi.ezsport.dtos.playerbooking.CreatePlayerBookingRequest;
+import vn.hust.hedspi.ezsport.dtos.playerbooking.PlayerBookingResponse;
+import vn.hust.hedspi.ezsport.dtos.playerbooking.UpdatePlayerBookingRequest;
 import vn.hust.hedspi.ezsport.services.PlayerBookingService;
 
 @RestController

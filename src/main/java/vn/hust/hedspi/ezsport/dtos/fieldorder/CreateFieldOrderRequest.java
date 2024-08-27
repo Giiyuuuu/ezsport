@@ -1,9 +1,8 @@
-package vn.hust.hedspi.ezsport.dtos.fieldOrder;
+package vn.hust.hedspi.ezsport.dtos.fieldorder;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
