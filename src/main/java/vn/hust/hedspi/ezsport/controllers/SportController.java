@@ -4,15 +4,15 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.sport.CreateSportRequest;
+import vn.hust.hedspi.ezsport.dtos.sport.SportResponse;
 import vn.hust.hedspi.ezsport.dtos.sport.UpdateSportRequest;
-import vn.hust.hedspi.ezsport.entities.Sport;
-import vn.hust.hedspi.ezsport.repositories.SportRepository;
-
-import java.util.List;
-import java.util.UUID;
+import vn.hust.hedspi.ezsport.services.SportService;
 
 @RestController
 @NoArgsConstructor
@@ -20,58 +20,40 @@ import java.util.UUID;
 @RequestMapping("api/v1/sport")
 public class SportController {
     @Autowired
-    private SportRepository sportRepository;
+    private SportService sportService;
 
     // Create
     @PostMapping()
-    public ResponseEntity<Sport> createSport(@Valid @RequestBody CreateSportRequest requestBody) {
-        Sport sport = new Sport();
-        sport.setName(requestBody.getName());
-
-        return ResponseEntity.ok(sportRepository.save(sport));
+    public ApiResponse<SportResponse> createSport(@Valid @RequestBody CreateSportRequest requestBody) {
+        return sportService.createSport(requestBody);
     }
 
     // List Sport
     @GetMapping()
-    public ResponseEntity<List<Sport>> getAllSports() {
-        List<Sport> sports = sportRepository.findAll();
+    public ApiResponse<Page<SportResponse>> listSport(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1000") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
 
-        return ResponseEntity.ok(sports);
+        return sportService.listSport(pageable);
     }
 
     // Show
     @GetMapping("/{id}")
-    public ResponseEntity<Sport> getSportById(@PathVariable String id) {
-        Sport sport = sportRepository.findById(id).orElse(null);
-
-        return sport != null ? ResponseEntity.ok(sport) : ResponseEntity.notFound().build();
+    public ApiResponse<SportResponse> getSportById(@PathVariable String id) {
+        return sportService.getSportById(id);
     }
 
     // Update
     @PutMapping("/{id}")
-    public ResponseEntity<Sport> updateSport(@PathVariable String id, @Valid @RequestBody UpdateSportRequest requestBody) {
-        Sport sport = sportRepository.findById(id).orElse(null);
-
-        if (sport == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        sport.setName(requestBody.getName());
-
-        return ResponseEntity.ok(sportRepository.save(sport));
+    public ApiResponse<SportResponse> updateSport(@PathVariable String id, @Valid @RequestBody() UpdateSportRequest requestBody) {
+        return sportService.updateSport(id, requestBody);
     }
 
     // Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSport(@PathVariable String id) {
-        Sport sport = sportRepository.findById(id).orElse(null);
-
-        if (sport == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        sportRepository.delete(sport);
-
-        return ResponseEntity.noContent().build();
+    public ApiResponse<Void> deleteSport(@PathVariable String id) {
+        return sportService.deleteSport(id);
     }
 }
