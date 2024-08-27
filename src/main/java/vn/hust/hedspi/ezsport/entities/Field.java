@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -45,6 +43,7 @@ public class Field {
     @Column()
     private String status;
 
-    @Column(name = "sport_id")
-    private String sport;
+    @ManyToOne
+    @JoinColumn(name = "sport_id",referencedColumnName = "id")
+    private Sport sport;
 }

@@ -1,14 +1,18 @@
 package vn.hust.hedspi.ezsport.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.field.CreateFieldRequest;
-import vn.hust.hedspi.ezsport.entities.Field;
-import vn.hust.hedspi.ezsport.repositories.FieldRepository;
-
-import java.util.UUID;
+import vn.hust.hedspi.ezsport.dtos.field.FieldResponse;
+import vn.hust.hedspi.ezsport.dtos.field.UpdateFieldRequest;
+import vn.hust.hedspi.ezsport.services.FieldService;
 
 @RestController()
 @RequestMapping("api/v1/field")
@@ -16,21 +20,35 @@ import java.util.UUID;
 @AllArgsConstructor
 public class FieldController {
     @Autowired
-    private FieldRepository fieldRepository;
+    private FieldService fieldService;
 
     @GetMapping()
-    public Object getFieldInfo(@RequestParam String id){
-        return fieldRepository.getReferenceById(id);
+    public ApiResponse<Page<FieldResponse>> listField(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1000") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return fieldService.listField(pageable);
     }
 
     @PostMapping()
-    public Object createField(@RequestBody CreateFieldRequest requestBody){
-        Field field = new Field();
-        field.setName(requestBody.getName());
-        field.setDescription(requestBody.getDescription());
-        field.setLongitude(requestBody.getLongitude());
-        field.setLatitude(requestBody.getLatitude());
+    public ApiResponse<FieldResponse> createField(@Valid @RequestBody CreateFieldRequest requestBody){
+        return fieldService.createField(requestBody);
+    }
 
-        return fieldRepository.save(field);
+    @GetMapping("/{id}")
+    public ApiResponse<FieldResponse> getFieldById(@PathVariable String id){
+        return fieldService.getFieldById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ApiResponse<FieldResponse> updateField(@PathVariable String id,@Valid @RequestBody UpdateFieldRequest requestBody){
+        return fieldService.updateField(id, requestBody);
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<Void> deleteField(@PathVariable String id){
+        return fieldService.deleteField(id);
     }
 }
