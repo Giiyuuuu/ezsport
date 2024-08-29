@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vn.hust.hedspi.ezsport.data.DataSeeder;
 import vn.hust.hedspi.ezsport.data.FeedData;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.feed.CreateFeedRequest;
@@ -20,6 +21,7 @@ import vn.hust.hedspi.ezsport.repositories.FeedRepository;
 import vn.hust.hedspi.ezsport.repositories.UserRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -94,9 +96,6 @@ public class FeedService {
         feed.setEnd(request.getEnd());
         feed.setDate(request.getDate());
         feed.setStatus(request.getStatus());
-        feed.setLatitude(request.getLatitude());
-        feed.setLongitude(request.getLongitude());
-        feed.setBlock(request.getBlock());
         FeedResponse feedResponse = feedMapper.toFeedResponse(feedRepository.save(feed));
         ApiResponse response = new ApiResponse();
         response.setMessage("Update feed successful !");
@@ -117,9 +116,10 @@ public class FeedService {
         long count = feedRepository.count();
         if(count<10){
             log.info("Generate so many feeds ...");
-            FeedData feedData = new FeedData(userRepository);
+            DataSeeder<Feed> feedData = new FeedData(userRepository);
             List<Feed> feeds =  feedData.generate(1);
-            feedRepository.saveAll(feeds);
+//            feedRepository.saveAll(feeds);
+            feeds.forEach(feed->feedRepository.insertFeed(UUID.randomUUID().toString(),feed.getDescription(),feed.getStart(),feed.getEnd(),feed.getDate(),feed.getLocation().getX(),feed.getLocation().getY(),feed.getUser().getId()));
         }
     }
 }

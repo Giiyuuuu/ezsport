@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
+import org.hibernate.annotations.Type;
+import org.locationtech.jts.geom.Point;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -22,7 +23,7 @@ public class Feed {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     User user;
 
@@ -38,16 +39,10 @@ public class Feed {
     @Column(nullable = false,name = "feed_date")
     LocalDate date;
 
-    @Column()
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'looking'")
     String status = "looking";
 
-    @Column(nullable = false)
-    double latitude;
-
-    @Column(nullable = false)
-    double longitude;
-
-    @Column(nullable = false)
-    String block = "";
+    @Column(columnDefinition = "GEOMETRY")
+    Point location;
 }
 

@@ -32,6 +32,6 @@ public class PlayerBooking {
     @JoinColumn(name = "feed_id",referencedColumnName = "id",nullable = false)
     Feed feed;
 
-    @Column()
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'waiting'")
     String status = "waiting";
 }

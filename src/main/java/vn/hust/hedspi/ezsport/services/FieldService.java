@@ -1,6 +1,5 @@
 package vn.hust.hedspi.ezsport.services;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -107,9 +106,6 @@ public class FieldService {
         }
         field.setName(request.getName());
         field.setIsActive(request.getIsActive());
-        field.setBlock(request.getBlock());
-        field.setLongitude(request.getLongitude());
-        field.setLatitude(request.getLatitude());
         field.setDescription(request.getDescription());
         field.setAvatar(request.getAvatar());
         field.setOwner(user);
@@ -125,15 +121,14 @@ public class FieldService {
 
     public ApiResponse<Void> deleteField(String id) {
         Field field = fieldRepository.findById(id).orElse(null);
+        ApiResponse response = new ApiResponse();
         if (field == null) {
-            ApiResponse response = new ApiResponse();
             response.setCode(404);
             response.setMessage("Field not found !");
 
             return response;
         }
         fieldRepository.delete(field);
-        ApiResponse response = new ApiResponse();
         response.setMessage("Delete field successful !");
 
         return response;

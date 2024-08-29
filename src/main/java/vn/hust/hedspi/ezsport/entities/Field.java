@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Data
@@ -22,17 +23,11 @@ public class Field {
     @JoinColumn(name = "owner_id",referencedColumnName = "id")
     private User owner;
 
-    @Column()
-    private String isActive = "waiting"; // waiting , active, inactive
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'waiting'")
+    private String isActive; // waiting , active, inactive
 
-    @Column()
-    private String block;
-
-    @Column()
-    private double longitude;
-
-    @Column()
-    private double latitude;
+    @Column(columnDefinition = "GEOMETRY")
+    private Point location;
 
     @Column()
     private String description;

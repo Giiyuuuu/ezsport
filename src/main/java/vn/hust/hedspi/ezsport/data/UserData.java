@@ -29,6 +29,7 @@ public class UserData implements DataSeeder<User>{
             user.setFirstname(firstnames[randomFirstname]);
             user.setLastname(lastnames[randomLastname]);
             user.setEmail(generateEmail());
+            user.setRole("user");
             generateData.add(user);
         }
 
