@@ -118,8 +118,8 @@ public class FeedService {
             log.info("Generate so many feeds ...");
             DataSeeder<Feed> feedData = new FeedData(userRepository);
             List<Feed> feeds =  feedData.generate(1);
-//            feedRepository.saveAll(feeds);
-            feeds.forEach(feed->feedRepository.insertFeed(UUID.randomUUID().toString(),feed.getDescription(),feed.getStart(),feed.getEnd(),feed.getDate(),feed.getLocation().getX(),feed.getLocation().getY(),feed.getUser().getId()));
+            feedRepository.saveAll(feeds);
+//            feeds.forEach(feed->feedRepository.insertFeed(UUID.randomUUID().toString(),feed.getDescription(),feed.getStart(),feed.getEnd(),feed.getDate(),feed.getLocation().getX(),feed.getLocation().getY(),feed.getUser().getId()));
         }
     }
 }

@@ -36,7 +36,7 @@ public class FeedData implements DataSeeder<Feed> {
                 LocalTime startTime = RandomValue.generateRandomTime();
                 LocalTime endTime = startTime.plusHours(random.nextInt(3)+1);
 
-                Point point = geometryFactory.createPoint(new Coordinate(RandomValue.generateRandomLatitude(),RandomValue.generateRandomLongitude()));
+                Point point = geometryFactory.createPoint(new Coordinate(RandomValue.generateRandomLongitude(),RandomValue.generateRandomLatitude()));
                 feed.setLocation(point);
                 feed.setStart(startTime);
                 feed.setEnd(endTime);
