@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import vn.hust.hedspi.ezsport.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
@@ -17,4 +18,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "SELECT * FROM users ORDER BY RANDOM() LIMIT 2",nativeQuery = true)
     List<User> getRandom2User();
+
+    Optional<User> findByEmail(String email);
 }

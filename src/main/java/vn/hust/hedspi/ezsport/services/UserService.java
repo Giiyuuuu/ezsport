@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vn.hust.hedspi.ezsport.data.UserData;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
@@ -37,6 +39,8 @@ public class UserService {
 
     public ApiResponse<UserResponse> createUser(CreateUserRequest request){
         User user = userMapper.toCreateUserRequest(request);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         UserResponse userResponse = userMapper.toUserResponse(userRepository.save(user));
         ApiResponse response = new ApiResponse();
         response.setMessage("Create user successful !");
