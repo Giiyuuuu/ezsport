@@ -6,11 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Type;
 import org.locationtech.jts.geom.Point;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -44,5 +42,9 @@ public class Feed {
 
     @Column(columnDefinition = "GEOMETRY")
     Point location;
+
+    @ManyToOne
+    @JoinColumn(name = "sport_id",referencedColumnName = "id")
+    private Sport sport;
 }
 

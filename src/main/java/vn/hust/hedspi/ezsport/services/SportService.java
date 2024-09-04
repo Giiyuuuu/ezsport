@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vn.hust.hedspi.ezsport.data.SportData;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.sport.CreateSportRequest;
 import vn.hust.hedspi.ezsport.dtos.sport.SportResponse;
@@ -42,7 +43,7 @@ public class SportService {
         return response;
     }
 
-    public ApiResponse<SportResponse> getSportById(String id) {
+    public ApiResponse<SportResponse> getSportById(Integer id) {
         Sport sport = sportRepository.findById(id).orElse(null);
         SportResponse sportResponse = sportMapper.toSportResponse(sport);
         ApiResponse response = new ApiResponse();
@@ -52,7 +53,7 @@ public class SportService {
         return response;
     }
 
-    public ApiResponse<SportResponse> updateSport(String id, UpdateSportRequest request) {
+    public ApiResponse<SportResponse> updateSport(Integer id, UpdateSportRequest request) {
         Sport sport = sportRepository.findById(id).orElse(null);
         if (sport == null) {
             ApiResponse response = new ApiResponse();
@@ -71,11 +72,19 @@ public class SportService {
         return response;
     }
 
-    public ApiResponse<Void> deleteSport(String id) {
+    public ApiResponse<Void> deleteSport(Integer id) {
         sportRepository.deleteById(id);
         ApiResponse response = new ApiResponse();
         response.setMessage("Delete sport successful !");
 
         return response;
+    }
+
+    public void seedSports() {
+        long count = sportRepository.count();
+        if(count < 10){
+            SportData data = new SportData();
+            sportRepository.saveAll(data.generate(1));
+        }
     }
 }

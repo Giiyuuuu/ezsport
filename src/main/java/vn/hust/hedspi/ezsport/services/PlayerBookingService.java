@@ -1,6 +1,5 @@
 package vn.hust.hedspi.ezsport.services;
 
-import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -52,11 +51,11 @@ public class PlayerBookingService {
     }
 
     public ApiResponse<PlayerBookingResponse> createPlayerBooking(CreatePlayerBookingRequest request) {
-        User bookingPlayer = userRepository.findById(request.getBookingPlayerId()).orElse(null);
-        if (bookingPlayer == null) {
+        Feed feed = feedRepository.findById(request.getFeedId()).orElse(null);
+        if (feed == null) {
             ApiResponse response = new ApiResponse();
             response.setCode(404);
-            response.setMessage("Booking player not found !");
+            response.setMessage("Feed not found !");
 
             return response;
         }
@@ -67,23 +66,15 @@ public class PlayerBookingService {
             response.setMessage("Booked player not found !");
 
             return response;
-        } else if (bookedPlayer.getId().equals(bookingPlayer.getId())) {
+        } else if (bookedPlayer.getId().equals(feed.getUser().getId())) {
             ApiResponse response = new ApiResponse();
             response.setCode(400);
             response.setMessage("Booking player and booked player must be different !");
 
             return response;
         }
-        Feed feed = feedRepository.findById(request.getFeedId()).orElse(null);
-        if (feed == null) {
-            ApiResponse response = new ApiResponse();
-            response.setCode(404);
-            response.setMessage("Feed not found !");
-
-            return response;
-        }
         PlayerBooking playerBooking = playerBookingMapper.toCreatePlayerBookingRequest(request);
-        playerBooking.setBookingUser(bookingPlayer);
+        playerBooking.setBookingUser(feed.getUser());
         playerBooking.setBookedUser(bookedPlayer);
         playerBooking.setFeed(feed);
         PlayerBookingResponse playerBookingResponse = playerBookingMapper.toPlayerBookingResponse(playerBookingRepository.save(playerBooking));
@@ -113,11 +104,11 @@ public class PlayerBookingService {
 
             return response;
         }
-        User bookingPlayer = userRepository.findById(request.getBookingPlayerId()).orElse(null);
-        if (bookingPlayer == null) {
+        Feed feed = feedRepository.findById(request.getFeedId()).orElse(null);
+        if (feed == null) {
             ApiResponse response = new ApiResponse();
             response.setCode(404);
-            response.setMessage("Booking player not found !");
+            response.setMessage("Feed not found !");
 
             return response;
         }
@@ -128,22 +119,14 @@ public class PlayerBookingService {
             response.setMessage("Booked player not found !");
 
             return response;
-        } else if (bookedPlayer.getId().equals(bookingPlayer.getId())) {
+        } else if (bookedPlayer.getId().equals(feed.getUser().getId())) {
             ApiResponse response = new ApiResponse();
             response.setCode(400);
             response.setMessage("Booking player and booked player must be different !");
 
             return response;
         }
-        Feed feed = feedRepository.findById(request.getFeedId()).orElse(null);
-        if (feed == null) {
-            ApiResponse response = new ApiResponse();
-            response.setCode(404);
-            response.setMessage("Feed not found !");
-
-            return response;
-        }
-        playerBooking.setBookingUser(bookingPlayer);
+        playerBooking.setBookingUser(feed.getUser());
         playerBooking.setBookedUser(bookedPlayer);
         playerBooking.setFeed(feed);
         playerBooking.setStatus(request.getStatus());
@@ -169,8 +152,7 @@ public class PlayerBookingService {
         return response;
     }
 
-    @PostConstruct
-    public void init() {
+    public void seedPlayerBookings() {
         long count = playerBookingRepository.count();
         if (count < 10) {
 //            log.info("Generating large number of player bookings...");

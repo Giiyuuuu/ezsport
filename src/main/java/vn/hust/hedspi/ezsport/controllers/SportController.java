@@ -41,19 +41,19 @@ public class SportController {
 
     // Show
     @GetMapping("/{id}")
-    public ApiResponse<SportResponse> getSportById(@PathVariable String id) {
+    public ApiResponse<SportResponse> getSportById(@PathVariable Integer id) {
         return sportService.getSportById(id);
     }
 
     // Update
     @PutMapping("/{id}")
-    public ApiResponse<SportResponse> updateSport(@PathVariable String id, @Valid @RequestBody() UpdateSportRequest requestBody) {
+    public ApiResponse<SportResponse> updateSport(@PathVariable Integer id, @Valid @RequestBody() UpdateSportRequest requestBody) {
         return sportService.updateSport(id, requestBody);
     }
 
     // Delete
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deleteSport(@PathVariable String id) {
+    public ApiResponse<Void> deleteSport(@PathVariable Integer id) {
         return sportService.deleteSport(id);
     }
 }

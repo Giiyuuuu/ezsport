@@ -29,14 +29,11 @@ public class UpdateFieldRequest {
     @Size(max = 1000)
     String description;
 
-    @NotBlank
-    String sportId;
+    @NotNull
+    Integer sportId;
 
     @NotBlank
     String ownerId;
-
-    @NotBlank
-    String block;
 
     String avatar;
 

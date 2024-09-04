@@ -1,10 +1,12 @@
 package vn.hust.hedspi.ezsport.services;
 
-import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,13 +17,14 @@ import vn.hust.hedspi.ezsport.dtos.feed.CreateFeedRequest;
 import vn.hust.hedspi.ezsport.dtos.feed.FeedResponse;
 import vn.hust.hedspi.ezsport.dtos.feed.UpdateFeedRequest;
 import vn.hust.hedspi.ezsport.entities.Feed;
+import vn.hust.hedspi.ezsport.entities.Sport;
 import vn.hust.hedspi.ezsport.entities.User;
 import vn.hust.hedspi.ezsport.mappers.FeedMapper;
 import vn.hust.hedspi.ezsport.repositories.FeedRepository;
+import vn.hust.hedspi.ezsport.repositories.SportRepository;
 import vn.hust.hedspi.ezsport.repositories.UserRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,8 @@ public class FeedService {
     FeedRepository feedRepository;
 
     UserRepository userRepository;
+
+    SportRepository sportRepository;
 
     FeedMapper feedMapper;
 
@@ -53,8 +58,20 @@ public class FeedService {
 
             return response;
         }
+        Sport sport = sportRepository.findById(request.getSportId()).orElse(null);
+        if (sport == null) {
+            ApiResponse response = new ApiResponse();
+            response.setCode(404);
+            response.setMessage("Sport not found !");
+
+            return response;
+        }
         Feed feed = feedMapper.toCreateFeedRequest(request);
         feed.setUser(user);
+        feed.setSport(sport);
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Point point = geometryFactory.createPoint(new Coordinate(request.getLongitude(), request.getLatitude()));
+        feed.setLocation(point);
         FeedResponse feedResponse = feedMapper.toFeedResponse(feedRepository.save(feed));
         ApiResponse response = new ApiResponse();
         response.setMessage("Create feed successful !");
@@ -90,12 +107,24 @@ public class FeedService {
 
             return response;
         }
+        Sport sport = sportRepository.findById(request.getSportId()).orElse(null);
+        if (sport == null) {
+            ApiResponse response = new ApiResponse();
+            response.setCode(404);
+            response.setMessage("Sport not found !");
+
+            return response;
+        }
         feed.setUser(user);
+        feed.setSport(sport);
         feed.setDescription(request.getDescription());
         feed.setStart(request.getStart());
         feed.setEnd(request.getEnd());
         feed.setDate(request.getDate());
         feed.setStatus(request.getStatus());
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Point point = geometryFactory.createPoint(new Coordinate(request.getLongitude(), request.getLatitude()));
+        feed.setLocation(point);
         FeedResponse feedResponse = feedMapper.toFeedResponse(feedRepository.save(feed));
         ApiResponse response = new ApiResponse();
         response.setMessage("Update feed successful !");
@@ -111,8 +140,7 @@ public class FeedService {
         return response;
     }
 
-    @PostConstruct
-    public void init(){
+    public void seedFeeds(){
         long count = feedRepository.count();
         if(count<10){
             log.info("Generate so many feeds ...");

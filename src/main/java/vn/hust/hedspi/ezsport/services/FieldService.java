@@ -3,9 +3,13 @@ package vn.hust.hedspi.ezsport.services;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vn.hust.hedspi.ezsport.data.FieldData;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.field.CreateFieldRequest;
 import vn.hust.hedspi.ezsport.dtos.field.FieldResponse;
@@ -61,6 +65,9 @@ public class FieldService {
         Field field = fieldMapper.toCreateFieldRequest(request);
         field.setOwner(user);
         field.setSport(sport);
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Point point = geometryFactory.createPoint(new Coordinate(request.getLongitude(), request.getLatitude()));
+        field.setLocation(point);
         FieldResponse fieldResponse = fieldMapper.toFieldResponse(fieldRepository.save(field));
         ApiResponse response = new ApiResponse();
         response.setMessage("Create field successful !");
@@ -111,6 +118,9 @@ public class FieldService {
         field.setOwner(user);
         field.setSport(sport);
         field.setStatus(request.getStatus());
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Point point = geometryFactory.createPoint(new Coordinate(request.getLongitude(), request.getLatitude()));
+        field.setLocation(point);
         FieldResponse fieldResponse = fieldMapper.toFieldResponse(fieldRepository.save(field));
         ApiResponse response = new ApiResponse();
         response.setMessage("Update field successful !");
@@ -132,5 +142,13 @@ public class FieldService {
         response.setMessage("Delete field successful !");
 
         return response;
+    }
+
+    public void seedFields() {
+        long count = fieldRepository.count();
+        if(count < 10){
+            FieldData data = new FieldData(userRepository, sportRepository);
+            fieldRepository.saveAll(data.generate(100));
+        }
     }
 }

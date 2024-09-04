@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.locationtech.jts.geom.Point;
+import vn.hust.hedspi.ezsport.entities.Sport;
 import vn.hust.hedspi.ezsport.entities.User;
 
 import java.time.LocalDate;
@@ -23,7 +25,6 @@ public class FeedResponse {
     LocalTime end;
     LocalDate date;
     String status;
-    double latitude;
-    double longitude;
-    String block;
+//    Point location;
+    Sport sport;
 }
