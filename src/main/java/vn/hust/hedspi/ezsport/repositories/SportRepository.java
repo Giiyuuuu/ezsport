@@ -5,8 +5,7 @@ import org.springframework.stereotype.Repository;
 import vn.hust.hedspi.ezsport.entities.Sport;
 import java.util.Optional;
 
-
 @Repository
-public interface SportRepository extends JpaRepository<Sport, String> {
+public interface SportRepository extends JpaRepository<Sport, Integer> {
     Optional<Sport> findOneByName(String name);
 }

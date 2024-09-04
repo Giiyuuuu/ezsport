@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vn.hust.hedspi.ezsport.data.FieldOrderData;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.fieldorder.CreateFieldOrderRequest;
 import vn.hust.hedspi.ezsport.dtos.fieldorder.FieldOrderResponse;
@@ -153,5 +154,13 @@ public class FieldOrderService {
         response.setMessage("Delete field order successful !");
 
         return response;
+    }
+
+    public void seedFieldOrders() {
+        long count = fieldOrderRepository.count();
+        if(count < 10){
+            FieldOrderData data = new FieldOrderData(fieldRepository);
+            fieldOrderRepository.saveAll(data.generate(100));
+        }
     }
 }

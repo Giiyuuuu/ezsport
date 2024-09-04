@@ -46,6 +46,6 @@ public class UpdateFeedRequest {
     @DecimalMax("90.0")
     double longitude;
 
-    @NotBlank
-    String block;
+    @NotNull
+    Integer sportId;
 }

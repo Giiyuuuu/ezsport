@@ -14,9 +14,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdatePlayerBookingRequest {
     @NotNull
-    String bookingPlayerId;
-
-    @NotNull
     String bookedPlayerId;
 
     @NotNull

@@ -1,6 +1,5 @@
 package vn.hust.hedspi.ezsport.services;
 
-import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -81,8 +80,7 @@ public class UserService {
         return response;
     }
 
-    @PostConstruct
-    public void init(){
+    public void seedUsers(){
         long count = userRepository.count();
         if(count < 10){
             UserData data = new UserData();
