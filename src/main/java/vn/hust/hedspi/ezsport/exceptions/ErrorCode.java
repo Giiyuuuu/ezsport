@@ -14,8 +14,8 @@ public enum ErrorCode {
     INVALID_KEY(9998,"Invalid key"),
     FIELD_NAME_INVALID(1003,"Field name invalid"),
     EMAIL_INVALID(1003,"Email invalid"),
-    PASSWORD_INVALID(1003,"Password at least 6 character")
-
+    PASSWORD_INVALID(1003,"Password at least 6 character"),
+    AUTHORIZATION_DENIED(9997,"Authorization denied")
     ;
 
     ErrorCode(int code,String message){

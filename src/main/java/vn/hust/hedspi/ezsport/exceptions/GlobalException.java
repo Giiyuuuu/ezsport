@@ -3,6 +3,7 @@ package vn.hust.hedspi.ezsport.exceptions;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -66,5 +67,14 @@ public class GlobalException {
         String minValue = String.valueOf(attributes.get(MIN_ATTRIBUTE));
 
         return message.replace("{" + MIN_ATTRIBUTE + "}", minValue);
+    }
+
+    @ExceptionHandler(value = AuthorizationDeniedException.class)
+    ResponseEntity<ApiResponse> handlingAuthorizeException(AuthorizationDeniedException exception){
+        ApiResponse response = new ApiResponse();
+        response.setCode(ErrorCode.AUTHORIZATION_DENIED.getCode());
+        response.setMessage(ErrorCode.AUTHORIZATION_DENIED.getMessage());
+
+        return ResponseEntity.badRequest().body(response);
     }
 }
