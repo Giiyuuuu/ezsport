@@ -1,10 +1,13 @@
 package vn.hust.hedspi.ezsport.entities;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -12,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,6 +33,5 @@ public class User {
     @Column()
     private String password;
 
-    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'user'")
-    private String role = "user";
+    private Set<String> roles;
 }

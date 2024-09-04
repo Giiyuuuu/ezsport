@@ -5,6 +5,7 @@ import vn.hust.hedspi.ezsport.entities.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import static vn.hust.hedspi.ezsport.data.RandomValue.generateRandomString;
 
@@ -21,6 +22,7 @@ public class UserData implements DataSeeder<User>{
     @Override
     public List<User> generate(int amount) {
         Random random = new Random();
+        Set<String> roles = Set.of(new String[]{"user"});
         List<User> generateData = new ArrayList<>(List.of());
         for(int i=0;i<amount;i++){
             int randomFirstname = random.nextInt(firstnames.length);
@@ -29,7 +31,7 @@ public class UserData implements DataSeeder<User>{
             user.setFirstname(firstnames[randomFirstname]);
             user.setLastname(lastnames[randomLastname]);
             user.setEmail(generateEmail());
-            user.setRole("user");
+            user.setRoles(roles);
             generateData.add(user);
         }
 
