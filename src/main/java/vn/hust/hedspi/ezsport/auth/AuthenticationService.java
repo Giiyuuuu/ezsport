@@ -1,4 +1,4 @@
-package vn.hust.hedspi.ezsport.services;
+package vn.hust.hedspi.ezsport.auth;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import vn.hust.hedspi.ezsport.dtos.auth.AuthenticationRequest;
 import vn.hust.hedspi.ezsport.dtos.auth.AuthenticationResponse;
+import vn.hust.hedspi.ezsport.entities.Privilege;
 import vn.hust.hedspi.ezsport.entities.User;
 import vn.hust.hedspi.ezsport.exceptions.AppException;
 import vn.hust.hedspi.ezsport.exceptions.ErrorCode;
@@ -23,6 +24,7 @@ import vn.hust.hedspi.ezsport.repositories.UserRepository;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Set;
 import java.util.StringJoiner;
 
 @Service
@@ -45,7 +47,6 @@ public class AuthenticationService {
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(6, ChronoUnit.HOURS).toEpochMilli()))
                 .claim("scope",buildScope(user))
-                .claim("privilege","READ")
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -79,7 +80,13 @@ public class AuthenticationService {
     private String buildScope(User user){
         StringJoiner stringJoiner = new StringJoiner(" ");
         if (!CollectionUtils.isEmpty(user.getRoles()))
-            user.getRoles().forEach(stringJoiner::add);
+            user.getRoles().forEach(role -> {
+                stringJoiner.add("ROLE_"+role.getName());
+                Set<Privilege> privilegeSet = role.getPrivileges();
+                privilegeSet.forEach(privilege -> {
+                    stringJoiner.add(privilege.getName());
+                });
+            });
 
         return stringJoiner.toString();
     }

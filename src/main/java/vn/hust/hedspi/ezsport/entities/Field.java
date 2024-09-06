@@ -24,7 +24,7 @@ public class Field {
     private User owner;
 
     @Column(columnDefinition = "VARCHAR(255) DEFAULT 'waiting'")
-    private String isActive; // waiting , active, inactive
+    private String isActive = "waiting"; // waiting , active, inactive
 
     @Column(columnDefinition = "GEOMETRY")
     private Point location;

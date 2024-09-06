@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vn.hust.hedspi.ezsport.data.UserData;
@@ -14,7 +13,6 @@ import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.user.CreateUserRequest;
 import vn.hust.hedspi.ezsport.dtos.user.UserResponse;
 import vn.hust.hedspi.ezsport.dtos.user.UpdateUserRequest;
-import vn.hust.hedspi.ezsport.entities.Role;
 import vn.hust.hedspi.ezsport.entities.User;
 import vn.hust.hedspi.ezsport.mappers.UserMapper;
 import vn.hust.hedspi.ezsport.repositories.UserRepository;
@@ -45,10 +43,10 @@ public class UserService {
         User user = userMapper.toCreateUserRequest(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        Set<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
+//        Set<String> roles = new HashSet<>();
+//        roles.add(Role.USER.name());
 
-        user.setRoles(roles);
+//        user.setRoles(roles);
         UserResponse userResponse = userMapper.toUserResponse(userRepository.save(user));
         ApiResponse<UserResponse> response = new ApiResponse<>();
         response.setMessage("Create user successful !");

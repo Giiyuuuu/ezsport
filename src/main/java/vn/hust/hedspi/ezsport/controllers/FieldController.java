@@ -32,10 +32,10 @@ public class FieldController {
         return fieldService.listField(pageable);
     }
 
-    @PostMapping()
-    public ApiResponse<FieldResponse> createField(@Valid @RequestBody CreateFieldRequest requestBody){
-        return fieldService.createField(requestBody);
-    }
+//    @PostMapping()
+//    public ApiResponse<FieldResponse> createField(@Valid @RequestBody CreateFieldRequest requestBody){
+//        return fieldService.createField(requestBody);
+//    }
 
     @GetMapping("/{id}")
     public ApiResponse<FieldResponse> getFieldById(@PathVariable String id){

@@ -34,10 +34,10 @@ public class FieldOrderController {
     }
 
     //Create
-    @PostMapping()
-    public ApiResponse<FieldOrderResponse> createFieldOrder(@Valid @RequestBody CreateFieldOrderRequest requestBody){
-        return fieldOrderService.createFieldOrder(requestBody);
-    }
+//    @PostMapping()
+//    public ApiResponse<FieldOrderResponse> createFieldOrder(@Valid @RequestBody CreateFieldOrderRequest requestBody){
+//        return fieldOrderService.createFieldOrder(requestBody);
+//    }
 
     //Show
     @GetMapping("/{id}")

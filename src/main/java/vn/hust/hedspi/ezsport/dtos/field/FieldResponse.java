@@ -17,11 +17,13 @@ import vn.hust.hedspi.ezsport.entities.User;
 public class FieldResponse {
     String id;
     String name;
-    User owner;
+//    User owner;
     String isActive;
     String description;
     String status;
 //    Point location;
+    double longitude;
+    double latitude;
     String avatar;
     Sport sport;
 }

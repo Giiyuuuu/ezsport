@@ -19,24 +19,17 @@ import java.time.LocalTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateFieldOrderRequest {
     @NotNull
-    String fieldId;
-
-    @NotNull
     LocalTime start;
 
     @NotNull
     LocalTime end;
 
     @NotNull
-    @FutureOrPresent
     LocalDate date;
 
     @NotNull
     @DecimalMin("0.0")
     double price;
 
-    String userId;
-
-    @FutureOrPresent
     LocalDateTime paidAt;
 }

@@ -17,6 +17,8 @@ import vn.hust.hedspi.ezsport.dtos.field.UpdateFieldRequest;
 import vn.hust.hedspi.ezsport.entities.Field;
 import vn.hust.hedspi.ezsport.entities.Sport;
 import vn.hust.hedspi.ezsport.entities.User;
+import vn.hust.hedspi.ezsport.exceptions.AppException;
+import vn.hust.hedspi.ezsport.exceptions.ErrorCode;
 import vn.hust.hedspi.ezsport.mappers.FieldMapper;
 import vn.hust.hedspi.ezsport.repositories.FieldRepository;
 import vn.hust.hedspi.ezsport.repositories.SportRepository;
@@ -45,23 +47,16 @@ public class FieldService {
         return response;
     }
 
-    public ApiResponse<FieldResponse> createField(CreateFieldRequest request) {
-        User user = userRepository.findById(request.getOwnerId()).orElse(null);
-        if (user == null) {
-            ApiResponse response = new ApiResponse();
-            response.setCode(404);
-            response.setMessage("User not found !");
+    public ApiResponse<FieldResponse> createField(CreateFieldRequest request,String userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        Sport sport = sportRepository.findById(request.getSportId()).orElseThrow(
+                ()-> new AppException(ErrorCode.FIELD_NOT_FOUND)
+        );
 
-            return response;
-        }
-        Sport sport = sportRepository.findById(request.getSportId()).orElse(null);
-        if (sport == null) {
-            ApiResponse response = new ApiResponse();
-            response.setCode(404);
-            response.setMessage("Sport not found !");
+        ApiResponse<FieldResponse> response = new ApiResponse<FieldResponse>();
 
-            return response;
-        }
         Field field = fieldMapper.toCreateFieldRequest(request);
         field.setOwner(user);
         field.setSport(sport);
@@ -69,7 +64,6 @@ public class FieldService {
         Point point = geometryFactory.createPoint(new Coordinate(request.getLongitude(), request.getLatitude()));
         field.setLocation(point);
         FieldResponse fieldResponse = fieldMapper.toFieldResponse(fieldRepository.save(field));
-        ApiResponse response = new ApiResponse();
         response.setMessage("Create field successful !");
         response.setResult(fieldResponse);
 

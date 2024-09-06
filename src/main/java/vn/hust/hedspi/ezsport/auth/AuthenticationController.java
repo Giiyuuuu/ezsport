@@ -1,16 +1,13 @@
-package vn.hust.hedspi.ezsport.controllers;
+package vn.hust.hedspi.ezsport.auth;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.auth.AuthenticationRequest;
 import vn.hust.hedspi.ezsport.dtos.auth.AuthenticationResponse;
-import vn.hust.hedspi.ezsport.services.AuthenticationService;
 
 @RestController()
 @RequiredArgsConstructor
@@ -24,6 +21,22 @@ public class AuthenticationController {
         var result = authenticationService.authentication(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
+                .build();
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('READ_ALL_DATA')")
+    ApiResponse<String> checkAdmin(){
+        return ApiResponse.<String>builder()
+                .result("ADMIN")
+                .build();
+    }
+
+    @GetMapping("/owner")
+    @PreAuthorize("hasAuthority('OWE_FIELD')")
+    ApiResponse<String> checkOwner(){
+        return ApiResponse.<String>builder()
+                .result("OWNER")
                 .build();
     }
 }

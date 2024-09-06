@@ -32,9 +32,6 @@ public class CreateFieldRequest {
     @NotNull
     Integer sportId;
 
-    @NotBlank
-    String ownerId;
-
     String avatar;
 
     String status;

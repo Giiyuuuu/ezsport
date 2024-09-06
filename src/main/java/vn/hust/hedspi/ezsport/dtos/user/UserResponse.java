@@ -2,6 +2,7 @@ package vn.hust.hedspi.ezsport.dtos.user;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import vn.hust.hedspi.ezsport.entities.Role;
 
 import java.util.Set;
 
@@ -15,5 +16,5 @@ public class UserResponse {
     String email;
     String firstname;
     String lastname;
-    Set<String> roles;
+    Set<Role> roles;
 }

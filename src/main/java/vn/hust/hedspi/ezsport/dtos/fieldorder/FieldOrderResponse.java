@@ -18,7 +18,6 @@ import java.time.LocalTime;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class FieldOrderResponse {
     String id;
-    Field field;
     LocalTime start;
     LocalTime end;
     LocalDate date;

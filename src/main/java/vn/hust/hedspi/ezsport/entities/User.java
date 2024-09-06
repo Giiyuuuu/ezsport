@@ -33,5 +33,7 @@ public class User {
     @Column()
     private String password;
 
-    private Set<String> roles;
+    @ManyToMany
+    @JoinTable(name = "user_roles")
+    private Set<Role> roles;
 }

@@ -47,41 +47,41 @@ public class FieldOrderService {
         return response;
     }
 
-    public ApiResponse<FieldOrderResponse> createFieldOrder(CreateFieldOrderRequest request) {
-        Field field = fieldRepository.findById(request.getFieldId()).orElse(null);
-        if (field == null) {
-            ApiResponse response = new ApiResponse();
-            response.setCode(404);
-            response.setMessage("Field not found !");
-
-            return response;
-        }
-        if (request.getStart().isAfter(request.getEnd())){
-            ApiResponse response = new ApiResponse();
-            response.setCode(400);
-            response.setMessage("Start time must be before end time !");
-
-            return response;
-        }
-        if (request.getUserId() != null) {
-            User user = userRepository.findById(request.getUserId()).orElse(null);
-            if (user == null) {
-                ApiResponse response = new ApiResponse();
-                response.setCode(404);
-                response.setMessage("User not found !");
-
-                return response;
-            }
-        }
-        FieldOrder fieldOrder = fieldOrderMapper.toCreateFieldOrderRequest(request);
-        fieldOrder.setField(field);
-        FieldOrderResponse fieldOrderResponse = fieldOrderMapper.toFieldOrderResponse(fieldOrderRepository.save(fieldOrder));
-        ApiResponse response = new ApiResponse();
-        response.setMessage("Create field order successful !");
-        response.setResult(fieldOrderResponse);
-
-        return response;
-    }
+//    public ApiResponse<FieldOrderResponse> createFieldOrder(CreateFieldOrderRequest request) {
+//        Field field = fieldRepository.findById(request.getFieldId()).orElse(null);
+//        if (field == null) {
+//            ApiResponse response = new ApiResponse();
+//            response.setCode(404);
+//            response.setMessage("Field not found !");
+//
+//            return response;
+//        }
+//        if (request.getStart().isAfter(request.getEnd())){
+//            ApiResponse response = new ApiResponse();
+//            response.setCode(400);
+//            response.setMessage("Start time must be before end time !");
+//
+//            return response;
+//        }
+//        if (request.getUserId() != null) {
+//            User user = userRepository.findById(request.getUserId()).orElse(null);
+//            if (user == null) {
+//                ApiResponse response = new ApiResponse();
+//                response.setCode(404);
+//                response.setMessage("User not found !");
+//
+//                return response;
+//            }
+//        }
+//        FieldOrder fieldOrder = fieldOrderMapper.toCreateFieldOrderRequest(request);
+//        fieldOrder.setField(field);
+//        FieldOrderResponse fieldOrderResponse = fieldOrderMapper.toFieldOrderResponse(fieldOrderRepository.save(fieldOrder));
+//        ApiResponse response = new ApiResponse();
+//        response.setMessage("Create field order successful !");
+//        response.setResult(fieldOrderResponse);
+//
+//        return response;
+//    }
 
     public ApiResponse<FieldOrderResponse> getFieldOrderById(String id) {
         FieldOrder fieldOrder = fieldOrderRepository.findById(id).orElse(null);
