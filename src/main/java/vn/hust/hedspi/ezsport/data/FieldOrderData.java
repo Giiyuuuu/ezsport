@@ -1,11 +1,13 @@
 package vn.hust.hedspi.ezsport.data;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
 import vn.hust.hedspi.ezsport.entities.Field;
 import vn.hust.hedspi.ezsport.entities.FieldOrder;
-import vn.hust.hedspi.ezsport.entities.Sport;
+import vn.hust.hedspi.ezsport.repositories.FieldOrderRepository;
 import vn.hust.hedspi.ezsport.repositories.FieldRepository;
-import vn.hust.hedspi.ezsport.repositories.SportRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,12 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Component
 @AllArgsConstructor
-public class FieldOrderData implements DataSeeder<FieldOrder>{
+public class FieldOrderData implements ISeeder {
+    @Autowired
+    private ConfigurableApplicationContext context;
+
+    @Autowired
     FieldRepository fieldRepository;
 
+    @Autowired
+    FieldOrderRepository fieldOrderRepository;
+
     @Override
-    public List<FieldOrder> generate(int amount) {
+    public void seed(int amount) {
         List<FieldOrder> randomFieldOrders = new ArrayList<>();
 
         for (int i=0;i<amount;i++){
@@ -40,6 +50,8 @@ public class FieldOrderData implements DataSeeder<FieldOrder>{
             });
         }
 
-        return randomFieldOrders;
+        fieldOrderRepository.saveAll(randomFieldOrders);
+
+        context.getBeanFactory().destroyBean(this);
     }
 }

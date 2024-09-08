@@ -79,12 +79,4 @@ public class SportService {
 
         return response;
     }
-
-    public void seedSports() {
-        long count = sportRepository.count();
-        if(count < 10){
-            SportData data = new SportData();
-            sportRepository.saveAll(data.generate(1));
-        }
-    }
 }

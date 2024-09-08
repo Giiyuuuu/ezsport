@@ -10,7 +10,7 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vn.hust.hedspi.ezsport.data.DataSeeder;
+import vn.hust.hedspi.ezsport.data.ISeeder;
 import vn.hust.hedspi.ezsport.data.FeedData;
 import vn.hust.hedspi.ezsport.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.dtos.feed.CreateFeedRequest;
@@ -138,16 +138,5 @@ public class FeedService {
         ApiResponse response = new ApiResponse();
         response.setMessage("Delete feed successful !");
         return response;
-    }
-
-    public void seedFeeds(){
-        long count = feedRepository.count();
-        if(count<10){
-            log.info("Generate so many feeds ...");
-            DataSeeder<Feed> feedData = new FeedData(userRepository);
-            List<Feed> feeds =  feedData.generate(1);
-            feedRepository.saveAll(feeds);
-//            feeds.forEach(feed->feedRepository.insertFeed(UUID.randomUUID().toString(),feed.getDescription(),feed.getStart(),feed.getEnd(),feed.getDate(),feed.getLocation().getX(),feed.getLocation().getY(),feed.getUser().getId()));
-        }
     }
 }

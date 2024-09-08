@@ -137,12 +137,4 @@ public class FieldService {
 
         return response;
     }
-
-    public void seedFields() {
-        long count = fieldRepository.count();
-        if(count < 10){
-            FieldData data = new FieldData(userRepository, sportRepository);
-            fieldRepository.saveAll(data.generate(100));
-        }
-    }
 }

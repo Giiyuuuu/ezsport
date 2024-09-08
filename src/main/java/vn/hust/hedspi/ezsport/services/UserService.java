@@ -91,11 +91,5 @@ public class UserService {
         return response;
     }
 
-    public void seedUsers(){
-        long count = userRepository.count();
-        if(count < 10){
-            UserData data = new UserData();
-            userRepository.saveAll(data.generate(1000000));
-        }
-    }
+
 }

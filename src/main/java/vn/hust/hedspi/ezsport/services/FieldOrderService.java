@@ -155,12 +155,4 @@ public class FieldOrderService {
 
         return response;
     }
-
-    public void seedFieldOrders() {
-        long count = fieldOrderRepository.count();
-        if(count < 10){
-            FieldOrderData data = new FieldOrderData(fieldRepository);
-            fieldOrderRepository.saveAll(data.generate(100));
-        }
-    }
 }

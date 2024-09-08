@@ -151,32 +151,4 @@ public class PlayerBookingService {
 
         return response;
     }
-
-    public void seedPlayerBookings() {
-        long count = playerBookingRepository.count();
-        if (count < 10) {
-//            log.info("Generating large number of player bookings...");
-//
-//            PlayerBookingData data = new PlayerBookingData(feedRepository, userRepository);
-//
-//            int totalAmount = 1000000;
-//            int batchSize = 10000;
-//
-//            for (int i = 0; i < totalAmount; i += batchSize) {
-//                int amountToGenerate = Math.min(batchSize, totalAmount - i);
-//                List<PlayerBooking> playerBookings = data.generate(amountToGenerate);
-//
-//                playerBookingRepository.saveAll(playerBookings);
-//
-//                log.info("Batch {} saved.", (i / batchSize) + 1);
-//            }
-//
-//            log.info("All batches completed.");
-            PlayerBookingData data = new PlayerBookingData(feedRepository,userRepository);
-            List<PlayerBooking> listData = data.generate(100);
-
-            playerBookingRepository.saveAll(listData);
-        }
-    }
-
 }

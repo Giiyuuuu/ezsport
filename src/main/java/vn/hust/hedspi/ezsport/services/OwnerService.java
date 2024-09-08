@@ -41,10 +41,6 @@ public class OwnerService {
     FieldOrderRepository fieldOrderRepository;
 
     public List<FieldResponse> getOwnField(String userId){
-        User user = userRepository.findById(userId).orElseThrow(
-                ()-> new AppException(ErrorCode.USER_NOT_FOUND)
-        );
-
         List<Field> fieldList =  fieldRepository.getFieldsByOwnerId(userId);
         List<FieldResponse> fieldResponseList = new ArrayList<>();
         fieldList.forEach(field -> {

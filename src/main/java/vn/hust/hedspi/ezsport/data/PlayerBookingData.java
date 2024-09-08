@@ -1,26 +1,38 @@
 package vn.hust.hedspi.ezsport.data;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
 import vn.hust.hedspi.ezsport.entities.Feed;
 import vn.hust.hedspi.ezsport.entities.PlayerBooking;
 import vn.hust.hedspi.ezsport.entities.User;
 import vn.hust.hedspi.ezsport.repositories.FeedRepository;
+import vn.hust.hedspi.ezsport.repositories.PlayerBookingRepository;
 import vn.hust.hedspi.ezsport.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Component
 @AllArgsConstructor
-public class PlayerBookingData implements DataSeeder<PlayerBooking> {
+public class PlayerBookingData implements ISeeder {
+    @Autowired
     private FeedRepository feedRepository;
 
+    @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public List<PlayerBooking> generate(int amount) {
-        List<PlayerBooking> randomPlayerBookings = new ArrayList<>();
+    @Autowired
+    private PlayerBookingRepository playerBookingRepository;
 
+    @Autowired
+    private ConfigurableApplicationContext context;
+
+    @Override
+    public void seed(int amount) {
+        List<PlayerBooking> randomPlayerBookings = new ArrayList<>();
         for (int i=0;i<amount;i++){
             List<Feed> randomFeeds = feedRepository.getRandomFeedsLimit();
             List<User> users = userRepository.getRandom10000User();
@@ -36,7 +48,9 @@ public class PlayerBookingData implements DataSeeder<PlayerBooking> {
                 randomPlayerBookings.add(playerBooking);
             });
         }
+        playerBookingRepository.saveAll(randomPlayerBookings);
 
-        return randomPlayerBookings;
+
+        context.getBeanFactory().destroyBean(this);
     }
 }

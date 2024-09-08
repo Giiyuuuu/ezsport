@@ -3,11 +3,14 @@ package vn.hust.hedspi.ezsport.data;
 
 import lombok.AllArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
 import vn.hust.hedspi.ezsport.entities.Feed;
 import vn.hust.hedspi.ezsport.entities.User;
+import vn.hust.hedspi.ezsport.repositories.FeedRepository;
 import vn.hust.hedspi.ezsport.repositories.UserRepository;
 
 import java.time.LocalDate;
@@ -16,18 +19,26 @@ import java.util.List;
 import java.util.Random;
 
 
+@Component
 @AllArgsConstructor
-public class FeedData implements DataSeeder<Feed> {
+public class FeedData implements ISeeder {
+    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private FeedRepository feedRepository;
+
+    @Autowired
+    private ConfigurableApplicationContext context;
+
     @Override
-    public List<Feed> generate(int amount) {
+    public void seed(int amount) {
         List<Feed> randomFeeds = new java.util.ArrayList<>(List.of());
 
         Random random = new Random();
         GeometryFactory geometryFactory = new GeometryFactory();
         for(int i=0;i<amount;i++){
-            List<User> users = userRepository.getRandom1000User();
+            List<User> users = userRepository.getRandom10000User();
             users.forEach(user->{
                 Feed feed = new Feed();
                 feed.setUser(user);
@@ -45,6 +56,8 @@ public class FeedData implements DataSeeder<Feed> {
             });
         }
 
-        return randomFeeds;
+        feedRepository.saveAll(randomFeeds);
+
+        context.getBeanFactory().destroyBean(this);
     }
 }
