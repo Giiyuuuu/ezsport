@@ -8,20 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vn.hust.hedspi.ezsport.data.PlayerBookingData;
-import vn.hust.hedspi.ezsport.dtos.ApiResponse;
-import vn.hust.hedspi.ezsport.dtos.playerbooking.CreatePlayerBookingRequest;
-import vn.hust.hedspi.ezsport.dtos.playerbooking.PlayerBookingResponse;
-import vn.hust.hedspi.ezsport.dtos.playerbooking.UpdatePlayerBookingRequest;
-import vn.hust.hedspi.ezsport.entities.Feed;
-import vn.hust.hedspi.ezsport.entities.PlayerBooking;
-import vn.hust.hedspi.ezsport.entities.User;
-import vn.hust.hedspi.ezsport.mappers.PlayerBookingMapper;
-import vn.hust.hedspi.ezsport.repositories.FeedRepository;
-import vn.hust.hedspi.ezsport.repositories.PlayerBookingRepository;
-import vn.hust.hedspi.ezsport.repositories.UserRepository;
-
-import java.util.List;
+import vn.hust.hedspi.ezsport.domain.dtos.ApiResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.playerbooking.CreatePlayerBookingRequest;
+import vn.hust.hedspi.ezsport.domain.dtos.playerbooking.PlayerBookingResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.playerbooking.UpdatePlayerBookingRequest;
+import vn.hust.hedspi.ezsport.database.entities.Feed;
+import vn.hust.hedspi.ezsport.database.entities.PlayerBooking;
+import vn.hust.hedspi.ezsport.database.entities.User;
+import vn.hust.hedspi.ezsport.domain.mappers.PlayerBookingMapper;
+import vn.hust.hedspi.ezsport.database.repositories.FeedRepository;
+import vn.hust.hedspi.ezsport.database.repositories.PlayerBookingRepository;
+import vn.hust.hedspi.ezsport.database.repositories.UserRepository;
 
 @Service
 @RequiredArgsConstructor

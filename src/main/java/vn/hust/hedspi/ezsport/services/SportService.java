@@ -6,14 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vn.hust.hedspi.ezsport.data.SportData;
-import vn.hust.hedspi.ezsport.dtos.ApiResponse;
-import vn.hust.hedspi.ezsport.dtos.sport.CreateSportRequest;
-import vn.hust.hedspi.ezsport.dtos.sport.SportResponse;
-import vn.hust.hedspi.ezsport.dtos.sport.UpdateSportRequest;
-import vn.hust.hedspi.ezsport.entities.Sport;
-import vn.hust.hedspi.ezsport.mappers.SportMapper;
-import vn.hust.hedspi.ezsport.repositories.SportRepository;
+import vn.hust.hedspi.ezsport.domain.dtos.ApiResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.sport.CreateSportRequest;
+import vn.hust.hedspi.ezsport.domain.dtos.sport.SportResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.sport.UpdateSportRequest;
+import vn.hust.hedspi.ezsport.database.entities.Sport;
+import vn.hust.hedspi.ezsport.domain.mappers.SportMapper;
+import vn.hust.hedspi.ezsport.database.repositories.SportRepository;
 
 @Service
 @Slf4j

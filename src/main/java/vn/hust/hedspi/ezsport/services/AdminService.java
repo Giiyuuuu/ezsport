@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import vn.hust.hedspi.ezsport.repositories.UserRepository;
+import vn.hust.hedspi.ezsport.database.repositories.UserRepository;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)

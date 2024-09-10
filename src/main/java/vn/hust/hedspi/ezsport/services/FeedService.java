@@ -10,21 +10,17 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vn.hust.hedspi.ezsport.data.ISeeder;
-import vn.hust.hedspi.ezsport.data.FeedData;
-import vn.hust.hedspi.ezsport.dtos.ApiResponse;
-import vn.hust.hedspi.ezsport.dtos.feed.CreateFeedRequest;
-import vn.hust.hedspi.ezsport.dtos.feed.FeedResponse;
-import vn.hust.hedspi.ezsport.dtos.feed.UpdateFeedRequest;
-import vn.hust.hedspi.ezsport.entities.Feed;
-import vn.hust.hedspi.ezsport.entities.Sport;
-import vn.hust.hedspi.ezsport.entities.User;
-import vn.hust.hedspi.ezsport.mappers.FeedMapper;
-import vn.hust.hedspi.ezsport.repositories.FeedRepository;
-import vn.hust.hedspi.ezsport.repositories.SportRepository;
-import vn.hust.hedspi.ezsport.repositories.UserRepository;
-
-import java.util.List;
+import vn.hust.hedspi.ezsport.domain.dtos.ApiResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.feed.CreateFeedRequest;
+import vn.hust.hedspi.ezsport.domain.dtos.feed.FeedResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.feed.UpdateFeedRequest;
+import vn.hust.hedspi.ezsport.database.entities.Feed;
+import vn.hust.hedspi.ezsport.database.entities.Sport;
+import vn.hust.hedspi.ezsport.database.entities.User;
+import vn.hust.hedspi.ezsport.domain.mappers.FeedMapper;
+import vn.hust.hedspi.ezsport.database.repositories.FeedRepository;
+import vn.hust.hedspi.ezsport.database.repositories.SportRepository;
+import vn.hust.hedspi.ezsport.database.repositories.UserRepository;
 
 @Service
 @RequiredArgsConstructor

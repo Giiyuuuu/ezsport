@@ -8,17 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import vn.hust.hedspi.ezsport.data.UserData;
-import vn.hust.hedspi.ezsport.dtos.ApiResponse;
-import vn.hust.hedspi.ezsport.dtos.user.CreateUserRequest;
-import vn.hust.hedspi.ezsport.dtos.user.UserResponse;
-import vn.hust.hedspi.ezsport.dtos.user.UpdateUserRequest;
-import vn.hust.hedspi.ezsport.entities.User;
-import vn.hust.hedspi.ezsport.mappers.UserMapper;
-import vn.hust.hedspi.ezsport.repositories.UserRepository;
-
-import java.util.HashSet;
-import java.util.Set;
+import vn.hust.hedspi.ezsport.domain.dtos.ApiResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.user.CreateUserRequest;
+import vn.hust.hedspi.ezsport.domain.dtos.user.UserResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.user.UpdateUserRequest;
+import vn.hust.hedspi.ezsport.database.entities.User;
+import vn.hust.hedspi.ezsport.domain.mappers.UserMapper;
+import vn.hust.hedspi.ezsport.database.repositories.UserRepository;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
