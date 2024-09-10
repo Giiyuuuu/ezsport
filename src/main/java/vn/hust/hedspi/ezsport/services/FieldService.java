@@ -9,20 +9,19 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vn.hust.hedspi.ezsport.data.FieldData;
-import vn.hust.hedspi.ezsport.dtos.ApiResponse;
-import vn.hust.hedspi.ezsport.dtos.field.CreateFieldRequest;
-import vn.hust.hedspi.ezsport.dtos.field.FieldResponse;
-import vn.hust.hedspi.ezsport.dtos.field.UpdateFieldRequest;
-import vn.hust.hedspi.ezsport.entities.Field;
-import vn.hust.hedspi.ezsport.entities.Sport;
-import vn.hust.hedspi.ezsport.entities.User;
-import vn.hust.hedspi.ezsport.exceptions.AppException;
-import vn.hust.hedspi.ezsport.exceptions.ErrorCode;
-import vn.hust.hedspi.ezsport.mappers.FieldMapper;
-import vn.hust.hedspi.ezsport.repositories.FieldRepository;
-import vn.hust.hedspi.ezsport.repositories.SportRepository;
-import vn.hust.hedspi.ezsport.repositories.UserRepository;
+import vn.hust.hedspi.ezsport.domain.dtos.ApiResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.field.CreateFieldRequest;
+import vn.hust.hedspi.ezsport.domain.dtos.field.FieldResponse;
+import vn.hust.hedspi.ezsport.domain.dtos.field.UpdateFieldRequest;
+import vn.hust.hedspi.ezsport.database.entities.Field;
+import vn.hust.hedspi.ezsport.database.entities.Sport;
+import vn.hust.hedspi.ezsport.database.entities.User;
+import vn.hust.hedspi.ezsport.application.exceptions.AppException;
+import vn.hust.hedspi.ezsport.application.exceptions.ErrorCode;
+import vn.hust.hedspi.ezsport.domain.mappers.FieldMapper;
+import vn.hust.hedspi.ezsport.database.repositories.FieldRepository;
+import vn.hust.hedspi.ezsport.database.repositories.SportRepository;
+import vn.hust.hedspi.ezsport.database.repositories.UserRepository;
 
 @Service
 @RequiredArgsConstructor
