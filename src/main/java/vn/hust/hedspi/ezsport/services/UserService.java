@@ -19,7 +19,7 @@ import vn.hust.hedspi.ezsport.database.entities.User;
 import vn.hust.hedspi.ezsport.domain.dtos.user.UserSearchingResponseProjection;
 import vn.hust.hedspi.ezsport.domain.mappers.UserMapper;
 import vn.hust.hedspi.ezsport.database.repositories.UserRepository;
-import vn.hust.hedspi.ezsport.services.searching.ISearchingUser;
+import vn.hust.hedspi.ezsport.services.searching.searchinginterface.ISearchingUser;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package vn.hust.hedspi.ezsport.services.searching;
+package vn.hust.hedspi.ezsport.services.searching.searchinginterface;
 
 import org.locationtech.jts.geom.Point;
 import vn.hust.hedspi.ezsport.database.entities.Field;

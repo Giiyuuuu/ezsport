@@ -7,11 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import vn.hust.hedspi.ezsport.database.entities.Feed;
 import vn.hust.hedspi.ezsport.database.entities.Field;
 import vn.hust.hedspi.ezsport.database.repositories.FeedRepository;
 import vn.hust.hedspi.ezsport.database.repositories.FieldRepository;
 import vn.hust.hedspi.ezsport.database.repositories.UserRepository;
 import vn.hust.hedspi.ezsport.domain.dtos.user.UserSearchingResponseProjection;
+import vn.hust.hedspi.ezsport.services.searching.searchinginterface.ISearching;
+import vn.hust.hedspi.ezsport.services.searching.searchinginterface.ISearchingFeed;
+import vn.hust.hedspi.ezsport.services.searching.searchinginterface.ISearchingField;
+import vn.hust.hedspi.ezsport.services.searching.searchinginterface.ISearchingUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +26,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @Slf4j
 @Primary
-public class DatabaseSearching implements ISearching,ISearchingField,ISearchingUser {
+public class DatabaseSearching implements ISearching, ISearchingField, ISearchingUser, ISearchingFeed {
     UserRepository userRepository;
     FieldRepository fieldRepository;
     FeedRepository feedRepository;
@@ -44,5 +49,10 @@ public class DatabaseSearching implements ISearching,ISearchingField,ISearchingU
     @Override
     public List<Field> searchField(String fieldName,Point point,double radius) {
         return fieldRepository.findByName(fieldName);
+    }
+
+    @Override
+    public List<Feed> searchFeed() {
+        return List.of();
     }
 }
