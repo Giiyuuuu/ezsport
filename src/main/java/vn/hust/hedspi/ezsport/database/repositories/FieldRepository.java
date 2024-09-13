@@ -15,4 +15,7 @@ public interface FieldRepository extends JpaRepository<Field, String> {
 
     @Query(value = "SELECT * FROM fields f WHERE f.owner_id = :ownerId;", nativeQuery = true)
     List<Field> getFieldsByOwnerId(@Param("ownerId") String ownerId);
+
+    @Query(value = "SELECT * FROM fields f WHERE f.name LIKE '%:name%;'", nativeQuery = true)
+    List<Field> findByName(@Param("name") String name);
 }

@@ -14,7 +14,10 @@ import vn.hust.hedspi.ezsport.domain.dtos.ApiResponse;
 import vn.hust.hedspi.ezsport.domain.dtos.user.CreateUserRequest;
 import vn.hust.hedspi.ezsport.domain.dtos.user.UserResponse;
 import vn.hust.hedspi.ezsport.domain.dtos.user.UpdateUserRequest;
+import vn.hust.hedspi.ezsport.domain.dtos.user.UserSearchingResponseProjection;
 import vn.hust.hedspi.ezsport.services.UserService;
+
+import java.util.List;
 
 @RestController()
 @RequestMapping("api/v1/user")
@@ -65,4 +68,7 @@ public class UserController {
     public ApiResponse<Void> deleteUser(@PathVariable String id) {
         return userService.deleteUser(id);
     }
+
+    @GetMapping("/search")
+    public ApiResponse<List<UserSearchingResponseProjection>> search(@RequestParam String username,@RequestParam(required = false) Double longitude,@RequestParam(required = false) Double latitude,@RequestParam(defaultValue = "1.0") double radius){return userService.searchUser(username,longitude,latitude,radius);}
 }

@@ -4,6 +4,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,8 +16,12 @@ import vn.hust.hedspi.ezsport.domain.dtos.user.CreateUserRequest;
 import vn.hust.hedspi.ezsport.domain.dtos.user.UserResponse;
 import vn.hust.hedspi.ezsport.domain.dtos.user.UpdateUserRequest;
 import vn.hust.hedspi.ezsport.database.entities.User;
+import vn.hust.hedspi.ezsport.domain.dtos.user.UserSearchingResponseProjection;
 import vn.hust.hedspi.ezsport.domain.mappers.UserMapper;
 import vn.hust.hedspi.ezsport.database.repositories.UserRepository;
+import vn.hust.hedspi.ezsport.services.searching.ISearchingUser;
+
+import java.util.List;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
@@ -25,8 +32,10 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
+    ISearchingUser searching;
+
     public ApiResponse<Page<UserResponse>> listUser(Pageable pageable){
-        ApiResponse response = new ApiResponse();
+        ApiResponse<Page<UserResponse>> response = new ApiResponse<>();
         Page<User> userPage = userRepository.findAll(pageable);
         Page<UserResponse> userResponsePage = userPage.map(userMapper::toUserResponse);
         response.setMessage("Get list user successful !");
@@ -54,7 +63,7 @@ public class UserService {
     public ApiResponse<UserResponse> getUserById(String id){
         User user = userRepository.findById(id).orElse(null);
         UserResponse userResponse = userMapper.toUserResponse(user);
-        ApiResponse response = new ApiResponse();
+        ApiResponse<UserResponse> response = new ApiResponse<>();
         response.setMessage("Get user successful !");
         response.setResult(userResponse);
 
@@ -63,8 +72,8 @@ public class UserService {
 
     public ApiResponse<UserResponse> updateUser(String id, UpdateUserRequest request){
         User user = userRepository.findById(id).orElse(null);
+        ApiResponse<UserResponse> response = new ApiResponse<>();
         if(user == null){
-            ApiResponse response = new ApiResponse();
             response.setMessage("User not found !");
             return response;
         }
@@ -73,7 +82,6 @@ public class UserService {
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         UserResponse userResponse = userMapper.toUserResponse(userRepository.save(user));
-        ApiResponse response = new ApiResponse();
         response.setMessage("Update user successful !");
         response.setResult(userResponse);
 
@@ -82,10 +90,24 @@ public class UserService {
 
     public ApiResponse<Void> deleteUser(String id){
         userRepository.deleteById(id);
-        ApiResponse response = new ApiResponse();
+        ApiResponse<Void> response = new ApiResponse<>();
         response.setMessage("Delete user successful !");
         return response;
     }
 
+    public ApiResponse<List<UserSearchingResponseProjection>> searchUser(String username, Double longitude,Double latitude, double radius){
+        Point location;
+        GeometryFactory geometryFactory = new GeometryFactory();
 
+        if(longitude == null || latitude == null){
+            location = geometryFactory.createPoint(new Coordinate(0.0,0.0));
+        }else{
+            location = geometryFactory.createPoint(new Coordinate(longitude,latitude));
+        }
+
+
+        return ApiResponse.<List<UserSearchingResponseProjection>>builder()
+                .result(searching.searchUser(username,location,radius))
+                .build();
+    }
 }
